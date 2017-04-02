@@ -56,6 +56,7 @@
 #include "arch/lpc_arch.h"
 #include "arch/sys_arch.h"
 #include "lpc_phy.h"/* For the PHY monitor support */
+#include "httpd.h"
 #include "tcpecho.h"
 
 #if defined(lpc4337_m4)
@@ -145,6 +146,7 @@ static void vSetupIFTask (void *pvParameters) {
 
 	/* Initialize and start application */
 	tcpecho_init();
+	httpd_init();
 
 	/* This loop monitors the PHY link and will handle cable events
 	   via the PHY driver. */
