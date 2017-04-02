@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Panel de Control</title>
+
+    <meta name="description" content="Monitoreo del proceso de Fermentacion">
+    <meta name="author" content="Luis Enrique Chico Capistrano">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- link rel="stylesheet" href="framework.css" -->
+    <!--link rel="stylesheet" href="index.css" -->
+    <!--script src="framework.js"></script -->
+    <!--script src="index.js"></script -->
+    <!--script src="graphs.js"></script -->
+    <link rel="stylesheet" type="text/css" href="graphs.css">
+  </head>
+
+  <body>
+    <div id="Header_menu">
+      <table>
+        <tr>
+          <th><a href="index.shtml">Monitoreo</a></th>
+          <th><a href="configuracion.shtml">Configuracion</a></th>
+          <th><a href="control.shtml">Control</a></th>
+        </tr>
+      </table>
+    </div>
+
+    <h1> Testing CSS title </h1>
+
+
+      <div class="thermometer" >
+        <h3 class="title_monitor">Temperatura de Fermentacion </h3>
+          <svg width="300" height="300">
+            <path d="M80 260 V35 C80 30, 102 0 120 35 V260 Z" stroke="black" fill="red"/>
+            <circle cx="101" cy="260" r="30" stroke="black" stroke-width="0" fill="red" />
+            <rect id="therm_rang_OK" x=80 y=80 width="40" height="100" />
+
+            <text id="symbC" x="130" y="37">ºC</text>
+
+            <text id="set_alarm" x="0" y="12"> Set </text>
+            <text id="set_alarm" x="10" y="30">Alarm:</text>
+
+            <text id="therm_min" x="0" y="85"> max: 18</text>
+            <line id="line_max" x1="120" y1="181" x2="135" y2="181" />
+
+            <text id="therm_max" x="0" y="185"> min: 16</text>
+            <line id="line_max" x1="120" y1="80" x2="135" y2="80" />
+            <g class="arrow_tmp">
+              <path d="M2 10 L25 0 V20"></path>
+              <line x1="8" y1="10" x2="45" y2="10"/>
+              <text id="tmp_value" x="50" y="15"> 16,4 </text>
+            </g>
+          </svg>
+      </div>
+
+
+
+    <div class="battery">
+        <h3 class="title_monitor">Estado de Bateria</h3>
+        <svg width="300" height="300">
+          <g stroke="none" fill="none" >
+            <!-- Top small rectangle gray -->
+            <rect x="30" y="32" width="40" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
+            <!-- Top small rectangle white -->
+            <rect id="big_batt" x="10" y="56" width="80" height="165" />
+            <!-- Big battery -->
+            <rect id="small_ibatt" x="35" y="40" width="30" height="17" />
+            <!-- Last bar => 20 % or less -->
+            <!-- Need put TAG -->
+            <text id="dig_charge" x="100" y="125">100%</text>
+            <rect id="batt00" x="20" y="190" width="60" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
+            <!-- Second last bar => 40 % or less until 20 % -->
+            <rect id="batt20" x="20" y="160" width="60" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
+            <!-- Medle bar => betewen 40 and 60% -->
+            <rect id="batt40" x="20" y="130" width="60" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
+            <!-- Medle top => betewen 60 and 80% -->
+            <rect id="batt60" x="20" y="100" width="60" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
+            <!-- More than 80 % -->
+            <rect id="batt80" x="20" y="70" width="60" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
+             <!-- line x1="40" y1="20" x1="10" y1="50" style="stroke:rgb(255,0,0);stroke-width:2" -->
+             <svg id="ray" viewBox="70 -90 700 700">
+               <path  d="M200 50 L150 105 L180 105 L80 180 L130 120 L95 120 Z"></path>
+             </svg>
+          </g>
+        </svg>
+    <div>
+
+    <div class="gprs">
+      <h3 class="title_monitor"> Señal Movil</h3>
+        <svg width="300" height="300">
+          <line id="floor_gprs" x1="20" y1="150" x2="225" y2="150" />
+          <rect id="sig1_gprs" x="20" y="120" width="40" height="30" />
+          <rect id="sig2_gprs" x="75" y="95" width="40" height="55" />
+          <rect id="sig3_gprs" x="130" y="70" width="40" height="80" />
+          <rect id="sig4_gprs" x="185" y="35" width="40" height="115" />
+        </svg>
+    </div>
+
+    <div class="contacts">
+      <h3 class="title_monitor"> Valvulas y Motor </h3>
+      <svg width="300" height="300">
+            <circle id="evalv1" cx="10" cy="20" r="10"  />
+            <text  class="ev_txt" x="30" y="25"> Electrovalvula 1: OFF </text>
+            <circle id="evalv2" cx="10" cy="60" r="10"  />
+            <text  class="ev_txt" x="30" y="65"> Electrovalvula 2: OFF </text>
+            <circle id="motor" cx="10" cy="100" r="10"  />
+            <text  class="ev_txt" x="30" y="105"> Motor: OFF </text>
+      </svg>
+    </div>
+
+
+</body>
+
+</html>
