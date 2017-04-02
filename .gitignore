@@ -1,6 +1,6 @@
 *.launch
-.project
 .cproject
+.project
 project.mk
 tags
 .settings
