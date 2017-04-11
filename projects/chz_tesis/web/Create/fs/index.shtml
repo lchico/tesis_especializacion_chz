@@ -15,6 +15,8 @@
     <!--script src="index.js"></script -->
     <!--script src="graphs.js"></script -->
     <link rel="stylesheet" type="text/css" href="graphs.css">
+	<script src="control.js"></script>
+
   </head>
 
   <body>
@@ -28,11 +30,11 @@
       </table>
     </div>
 
-    <h1> Testing CSS title </h1>
+    <h1> Testing CSS </h1><!--act1-->
 
 
       <div class="thermometer" >
-        <h3 class="title_monitor">Temperatura de Fermentacion </h3>
+        <h3 class="title_monitor">Temperatura de Fermentacion <!--act2--></h3>
           <svg width="300" height="300">
             <path d="M80 260 V35 C80 30, 102 0 120 35 V260 Z" stroke="black" fill="red"/>
             <circle cx="101" cy="260" r="30" stroke="black" stroke-width="0" fill="red" />

@@ -82,7 +82,7 @@
 
 /* DHCP is ok, UDP is required with DHCP */
 #define LWIP_DHCP                       0
-#define LWIP_UDP                        1
+#define LWIP_UDP                        0
 
 /* Hostname can be used */
 #define LWIP_NETIF_HOSTNAME             1
@@ -133,6 +133,7 @@
 #define MEM_LIBC_MALLOC                 1
 #define MEMP_MEM_MALLOC                 1
 
+#define LWIP_HTTPD_SSI					1
 /* Needed for malloc/free */
 #include "FreeRTOS.h"
 #define malloc pvPortMalloc

@@ -56,6 +56,7 @@
 #include "arch/lpc_arch.h"
 #include "arch/sys_arch.h"
 #include "lpc_phy.h"/* For the PHY monitor support */
+#include "http_ssi.h"
 #include "httpd.h"
 #include "tcpecho.h"
 
@@ -77,6 +78,7 @@ static struct netif lpc_netif;
 /*****************************************************************************
  * Private functions
  ****************************************************************************/
+extern void http_set_ssi_handler(tSSIHandler ssi_handler, const char **tags, int num_tags);
 
 /* Sets up system hardware */
 static void prvSetupHardware(void)
@@ -146,6 +148,10 @@ static void vSetupIFTask (void *pvParameters) {
 
 	/* Initialize and start application */
 	tcpecho_init();
+
+	/* Install the server side include handler. */
+	http_set_ssi_handler(SSIHandler, pccSSITags, sizeof( pccSSITags ) / sizeof( char * ) );
+
 	httpd_init();
 
 	/* This loop monitors the PHY link and will handle cable events
