@@ -112,8 +112,21 @@
             <text  class="ev_txt" x="30" y="105"> Motor: OFF </text>
       </svg>
     </div>
+	<br><br>
+
+
+
+<h2>ACTUADORES</h2>
+
+<form action="actuadores.cgi" method="GET">
+Some text in here.
+It can anything except another form.
+<input type="submit" name="cmd1" value="ON">
+</form>
+
 
 
 </body>
+
 
 </html>

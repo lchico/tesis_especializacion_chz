@@ -63,7 +63,7 @@
 #define CHECKSUM_CHECK_IP               1
 #define CHECKSUM_CHECK_UDP              1
 #define CHECKSUM_CHECK_TCP              1
-#define LWIP_CHECKSUM_ON_COPY           1
+#define LWIP_CHECKSUM_ON_COPY           0
 
 /* Use LWIP version of htonx() to allow generic functionality across
    all platforms. If you are using the Cortex Mx devices, you might
@@ -72,13 +72,15 @@
 
 /* Non-static memory, used with DMA pool */
 #ifdef __CODE_RED
-#define MEM_SIZE                        (12 * 1024)
+//#define MEM_SIZE                        (12 * 1024)
 #else
 #define MEM_SIZE                        (24 * 1024)
 #endif
 
+#define MEM_SIZE                        (24 * 1024)
+
 /* Raw interface not needed */
-#define LWIP_RAW                        0
+#define LWIP_RAW                        1
 
 /* DHCP is ok, UDP is required with DHCP */
 #define LWIP_DHCP                       0
@@ -94,7 +96,7 @@
 #define TCP_SND_BUF                     (2 * TCP_MSS)
 
 #define LWIP_SOCKET                     0
-#define LWIP_NETCONN                    1
+#define LWIP_NETCONN                    0
 #define MEMP_NUM_SYS_TIMEOUT            300
 
 #define LWIP_STATS                      0
@@ -117,7 +119,7 @@
 #define EMAC_DEBUG                    LWIP_DBG_OFF
 
 #define DEFAULT_THREAD_PRIO             (tskIDLE_PRIORITY + 1)
-#define DEFAULT_THREAD_STACKSIZE        (512)
+#define DEFAULT_THREAD_STACKSIZE        (128)
 #define DEFAULT_ACCEPTMBOX_SIZE         6
 #define DEFAULT_ACCEPTMBOX_SIZE         6
 #define DEFAULT_TCP_RECVMBOX_SIZE       6
@@ -126,7 +128,7 @@
 /* TCPIP thread must run at higher priority than MAC threads! */
 #define TCPIP_THREAD_PRIO               (DEFAULT_THREAD_PRIO + configMAX_PRIORITIES - 1)
 
-#define TCPIP_THREAD_STACKSIZE          (512)
+#define TCPIP_THREAD_STACKSIZE          (256)
 
 #define TCPIP_MBOX_SIZE                 6
 

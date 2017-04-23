@@ -10,6 +10,7 @@
 #include "httpd.h"
 
 #include "lpc_types.h"
+#include "sensores.h"
 #include "string.h"
 
 
@@ -32,13 +33,12 @@ uint16_t SSIHandler( int iIndex, char *pcBuffer, int iBufferLength )
 	{
 
 	case ssiACT1_INDEX:
-		ptrState = "Ho";
+		ptrState = "HI";
 		strcpy( pcBuffer, ptrState );
 		break;
 
 	case ssiACT2_INDEX:
-		ptrState = "Ho";
-		strcpy( pcBuffer, ptrState );
+		get_temp(pcBuffer);
 		break;
 
 	default:

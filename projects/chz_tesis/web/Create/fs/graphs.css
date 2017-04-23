@@ -137,7 +137,7 @@ div.battery{
 
 /* Simulate charge or no using visibility:hidden/visible */
 #ray{
-  visibility: hidden;
+ // visibility: hidden;
   //visibility: visible;
   fill:yellow;
   stroke:red;

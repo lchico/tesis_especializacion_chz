@@ -1,10 +1,8 @@
-/*
- *
- #ifndef STACK_SIZE
+#ifndef STACK_SIZE
 #define STACK_SIZE  (0x400)
 #endif
 
-/* Top of stack that comes from linker script
+/* Top of stack that comes from linker script */
 extern void _vStackTop(void);
 
 // *****************************************************************************
@@ -20,4 +18,3 @@ unsigned int __check_heap_overflow (void * new_end_of_heap)
 	unsigned long stackend = ((unsigned long) &_vStackTop) - STACK_SIZE;
 	return ((unsigned long)new_end_of_heap >= stackend);
 }
-*/
