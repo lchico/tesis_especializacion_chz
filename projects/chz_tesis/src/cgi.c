@@ -13,6 +13,8 @@
 
 tCGI cgi_handlers[]={
 		{"/actuadores.cgi",actuatorsHandler},
+		{"/alarm.cgi",actuatorsHandler},
+		{"/network.cgi",actuatorsHandler},
 //		{"/testAJAX.cgi",AJAXHandler},
 };
 tCGI * ptrCGIHandlers;
@@ -25,5 +27,5 @@ void CGIinit( void) {
 //
 //	cgi_handler.pfnCGIHandler = actuatorsHandler;
 
-	http_set_cgi_handlers(cgi_handlers, 1);
+	http_set_cgi_handlers(cgi_handlers, 3);
 }

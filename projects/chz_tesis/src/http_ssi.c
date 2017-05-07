@@ -32,14 +32,37 @@ uint16_t SSIHandler( int iIndex, char *pcBuffer, int iBufferLength )
 	switch( iIndex )
 	{
 
+	case ssiACT0_INDEX:
+			ptrState = "ON";
+			strcpy( pcBuffer, ptrState );
+			break;
+
 	case ssiACT1_INDEX:
-		ptrState = "HI";
+		ptrState = "OFF";
 		strcpy( pcBuffer, ptrState );
 		break;
 
 	case ssiACT2_INDEX:
+			ptrState = "ON";
+			strcpy( pcBuffer, ptrState );
+			break;
+
+	case ssiACT3_INDEX:
+			ptrState = "OFF";
+			strcpy( pcBuffer, ptrState );
+			break;
+
+	case ssiSEN0_INDEX:
 		get_temp(pcBuffer);
 		break;
+
+	case ssiSEN1_INDEX:
+			get_temp(pcBuffer);
+			break;
+
+	case ssiSEN2_INDEX:
+			get_temp(pcBuffer);
+			break;
 
 	default:
 		strcpy( pcBuffer, "Error" );

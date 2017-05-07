@@ -39,7 +39,7 @@ void toggleActuatorState(int portNum){
 
 const char *actuatorsHandler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[]) {
 
-	if( strcmp(pcParam[0], "cmd1") == 0)
+	if( strcmp(pcParam[0], "Tmin") == 0)
 	{
 		if( strcmp(pcValue[0], "ON") == 0)
 			ciaaToggleOutput(7);
@@ -47,7 +47,7 @@ const char *actuatorsHandler(int iIndex, int iNumParams, char *pcParam[], char *
 			actuatorState[0] = OFF;
 	}
 
-	return "/index.shtml";
+	return "/configuracion.shtml";
 }
 
 void task(void * a)
