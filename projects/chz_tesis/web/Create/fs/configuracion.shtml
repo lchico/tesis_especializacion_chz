@@ -46,19 +46,17 @@
       <td>Temperatura </td>
       <td><input type="number" name="Tmin" min="7" max="20" style="width: 42px;"></td>
       <td><input type="number" name="Tmax" min="13" max="25" style="width: 42px;"></td>
-      <td><input type="checkbox" name="alarm0" value="ON"></td>
+      <td><input type="checkbox" checked name="alarm0" value="ON"></td>
     </tr>
     <tr>
       <td>Nivel mínimo de bateria </td>
       <td><input type="number" name="Bmin" min="1" max="5" style="width: 42px;"></td>
-      <td><input type="number" name="Bmax" min="1" max="5" style="width: 42px;"></td>
-      <td><input type="checkbox" name="alarm1" value="ON"></td>
+      <td><input type="checkbox" checked name="alarm1" value="ON"></td>
     </tr>
     <tr>
       <td>Señal modem </td>
-      <td><input type="number" name="Tmin" min="1" max="5" style="width: 42px;"></td>
-      <td><input type="number" name="Tmax" min="1" max="5" style="width: 42px;"></td>
-      <td><input type="checkbox" name="alarm1" value="ON"></td>
+      <td><input type="number" name="Smin" min="0" max="4" style="width: 42px;"></td>
+      <td><input type="checkbox" checked name="alarm2" value="ON"></td>
     </tr>
   </table>
   <br>
