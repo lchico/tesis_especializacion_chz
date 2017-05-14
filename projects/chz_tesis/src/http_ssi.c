@@ -12,6 +12,11 @@
 #include "lpc_types.h"
 #include "sensores.h"
 #include "string.h"
+#include "actuadores.h"
+
+extern int alarm_values[];
+extern state_t alarmState[];
+
 
 
 uint16_t SSIHandler( int iIndex, char *pcBuffer, int iBufferLength )
@@ -25,28 +30,43 @@ uint16_t SSIHandler( int iIndex, char *pcBuffer, int iBufferLength )
 
 	char *ptrState;
 
-	static uint8_t debugInt1 = 0;
-	static uint8_t debugInt2 = 100;
-	static uint8_t debugInt3 = 100;
-
 	switch( iIndex )
 	{
-
+/*
+	case ssiALARM0_INDEX:
+			sprintf(pcBuffer,"%i", alarmState[0]);	// Alarm temperature active/inactive
+			break;
+	case ssiALARM1_INDEX:
+			sprintf(pcBuffer,"%i", alarmState[1]); //Alarm  Battery active/inactive
+			break;
+	case ssiALARM2_INDEX:
+			sprintf(pcBuffer,"%i", alarmState[2]); //Alarm  Battery active/inactive
+			break;
+	case ssiTMIN_INDEX:
+			sprintf(pcBuffer,"%i", alarm_values[0]); // Temperature min alarm update value
+			break;
+	case ssiTMAX_INDEX:
+			sprintf(pcBuffer,"%i", alarm_values[1]); // Temperature max alarm update value
+			break;
+	case ssiBMIN_INDEX:
+			sprintf(pcBuffer,"%i", alarm_values[2]); //Battery min level update value
+			break;
+	case ssiSMIN_INDEX:
+		sprintf(pcBuffer,"%i", alarm_values[3]); // Battery min level update value
+			break;
+*/
 	case ssiACT0_INDEX:
 			ptrState = "ON";
 			strcpy( pcBuffer, ptrState );
 			break;
-
 	case ssiACT1_INDEX:
 		ptrState = "OFF";
 		strcpy( pcBuffer, ptrState );
 		break;
-
 	case ssiACT2_INDEX:
 			ptrState = "ON";
 			strcpy( pcBuffer, ptrState );
 			break;
-
 	case ssiACT3_INDEX:
 			ptrState = "OFF";
 			strcpy( pcBuffer, ptrState );

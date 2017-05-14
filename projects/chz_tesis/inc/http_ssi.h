@@ -15,13 +15,24 @@ uint16_t SSIHandler( int iIndex, char *pcBuffer, int iBufferLength );
 
 /* Definitions of the various SSI callback functions within the pccSSITags
 array.  If pccSSITags is updated, then these definitions must also be updated. */
-#define ssiACT0_INDEX			0
-#define ssiACT1_INDEX			1
-#define ssiACT2_INDEX			2
-#define ssiACT3_INDEX			3
-#define ssiSEN0_INDEX			4
-#define ssiSEN1_INDEX			5
-#define ssiSEN2_INDEX			6
+
+
+#define ssiALARM0_INDEX			0
+#define ssiALARM1_INDEX			1
+#define ssiALARM2_INDEX			2
+
+#define ssiTMAX_INDEX			3
+#define ssiTMIN_INDEX			4
+#define ssiBMIN_INDEX			5
+#define ssiSMIN_INDEX			6
+
+#define ssiACT0_INDEX			7
+#define ssiACT1_INDEX			8
+#define ssiACT2_INDEX			9
+#define ssiACT3_INDEX			10
+#define ssiSEN0_INDEX			11
+#define ssiSEN1_INDEX			12
+#define ssiSEN2_INDEX			13
 
 
 /* The SSI strings that are embedded in the served html files.  If this array
@@ -29,6 +40,13 @@ is changed, then the index position defined by the #defines such as
 ssiACT1_INDEX above must also be updated. */
 static const char *pccSSITags[] =
 {
+/*	"alarm0",
+	"alarm1",
+	"alarm2",
+	"Tmax",
+	"Tmin",
+	"Bmin",
+	"Smin", */
 	"act0",
 	"act1",
 	"act2",

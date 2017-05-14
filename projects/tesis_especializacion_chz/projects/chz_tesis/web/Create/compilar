@@ -1,0 +1,5 @@
+rm fs/*.*
+rm fsdata.c
+cp ../* fs
+wine makefsdata.exe
+#mv fsdata.c ../Webserver/Httpserver/src/

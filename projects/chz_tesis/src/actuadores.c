@@ -11,10 +11,12 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "ciaaIO.h"
-
-typedef enum state {OFF = 0, ON = !OFF} state_t;
+#include "stdlib.h"
 
 state_t actuatorState[4] = {OFF,OFF,OFF,OFF};
+int alarm_values[NRO_ALARMS+1] = {TMIN,TMAX,BMIN,SMIN};
+state_t alarmState[NRO_ALARMS] = {OFF,OFF,OFF};
+
 
 char* getActuatorState(int portNum){
 
@@ -49,6 +51,49 @@ const char *actuatorsHandler(int iIndex, int iNumParams, char *pcParam[], char *
 
 	return "/configuracion.shtml";
 }
+
+
+const char *alarmHandler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[]) {
+	int i=0;
+	/* Desactivate all alarms */
+	for (i=0 ; i< NRO_ALARMS; i++)
+		alarmState[i] = OFF;
+	/* Update all parameters and alarm state */
+	for (i=0; i < iNumParams; i++){
+		if( strcmp(pcParam[i], "Tmin") == 0){
+			alarm_values[0]= atoi(pcValue[i]);
+			continue;
+		}
+		if( strcmp(pcParam[i], "Tmax") == 0){
+			alarm_values[1]= atoi(pcValue[i]);
+			continue;
+		}
+		if( strcmp(pcParam[i], "Bmin") == 0){
+			alarm_values[2]= atoi(pcValue[i]);
+			continue;
+		}
+		if( strcmp(pcParam[i], "Smin") == 0){
+			alarm_values[3]= atoi(pcValue[i]);
+			continue;
+		}
+		if( strcmp(pcParam[i], "alarm0") == 0){
+			alarmState[0]= ON;
+			continue;
+		}
+		if( strcmp(pcParam[i], "alarm1") == 0){
+					alarmState[1]= ON;
+			continue;
+		}
+		if( strcmp(pcParam[i], "alarm2") == 0){
+			alarmState[2]= ON;
+			continue;
+		}
+
+	}
+	return "/configuracion.shtml";
+}
+
+
 
 void task(void * a)
 {
