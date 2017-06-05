@@ -29,14 +29,14 @@
             <text id="symbC" x="45" y="37">ºC</text>
 
             <text id="set_alarm" x="180" y="50">Alarm:</text>
-            <text id="alarm" x="240" y="50"><!--#alm0--></text>
+            <text id="alarm" x="240" y="50"><!--alm0--></text>
 
             <text class="contact_text" x="0" y="103"> max:</text>
-            <text id="therm_max" x="45" y="105"><!--#Tmax--></text>
+            <text id="therm_max" x="45" y="105"><!--Tmax--></text>
             <line id="line_max" x1="120" y1="100" x2="135" y2="100" />
 
             <text class="contact_text" x="0" y="173">min: </text>
-            <text id="therm_min" x="45" y="175"><!--#Tmin--></text>
+            <text id="therm_min" x="45" y="175"><!--Tmin--></text>
             <line id="line_max" x1="120" y1="171" x2="135" y2="171" />
             <g id="arrow_temp" >
               <path d="M2 10 L25 0 V20"></path>

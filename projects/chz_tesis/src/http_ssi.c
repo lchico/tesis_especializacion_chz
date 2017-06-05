@@ -21,18 +21,15 @@ extern state_t alarmState[];
 
 uint16_t SSIHandler( int iIndex, char *pcBuffer, int iBufferLength )
 {
-
 	/* Unused parameter. */
 	( void ) iBufferLength;
 
 	/* The SSI handler function that generates text depending on the index of
 	the SSI tag encountered. */
-
 	char *ptrState;
 
 	switch( iIndex )
 	{
-/*
 	case ssiALARM0_INDEX:
 			sprintf(pcBuffer,"%i", alarmState[0]);	// Alarm temperature active/inactive
 			break;
@@ -52,17 +49,16 @@ uint16_t SSIHandler( int iIndex, char *pcBuffer, int iBufferLength )
 			sprintf(pcBuffer,"%i", alarm_values[2]); //Battery min level update value
 			break;
 	case ssiSMIN_INDEX:
-		sprintf(pcBuffer,"%i", alarm_values[3]); // Battery min level update value
+			sprintf(pcBuffer,"%i", alarm_values[3]); // Battery min level update value
 			break;
-*/
 	case ssiACT0_INDEX:
 			ptrState = "ON";
 			strcpy( pcBuffer, ptrState );
 			break;
 	case ssiACT1_INDEX:
-		ptrState = "OFF";
-		strcpy( pcBuffer, ptrState );
-		break;
+			ptrState = "OFF";
+			strcpy( pcBuffer, ptrState );
+			break;
 	case ssiACT2_INDEX:
 			ptrState = "ON";
 			strcpy( pcBuffer, ptrState );
@@ -71,17 +67,15 @@ uint16_t SSIHandler( int iIndex, char *pcBuffer, int iBufferLength )
 			ptrState = "OFF";
 			strcpy( pcBuffer, ptrState );
 			break;
-
 	case ssiSEN0_INDEX:
-		get_temp(pcBuffer);
-		break;
-
-	case ssiSEN1_INDEX:
-			get_temp(pcBuffer);
+			//get_temp(pcBuffer);
+			GetTemperatura( pcBuffer );
 			break;
-
+	case ssiSEN1_INDEX:
+			GetTemperatura( pcBuffer );
+			break;
 	case ssiSEN2_INDEX:
-			get_temp(pcBuffer);
+			GetTemperatura( pcBuffer );
 			break;
 
 	default:

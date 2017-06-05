@@ -64,6 +64,15 @@ function update_values( data ){
 		var argument=parsed[i].replace(/[#<!-]/g,"");
 		var tag=argument.split('>');
 		switch(tag[0]){
+			case "alm0": //Set temperature Alarm
+            	                document.getElementById("alarm").innerHTML = tag[1];
+                                break;
+			case "Tmax": //Set temperature Max
+            	                document.getElementById("therm_max").innerHTML = tag[1];
+                                break;
+			case "Tmin": //Set temperature Min
+            	                document.getElementById("therm_min").innerHTML = tag[1];
+                                break;
 			case "act0": case "act1": case "act2": case "act3" :	
 				contacts_update(tag[1],tag[0]);
 				break;

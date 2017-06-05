@@ -40,13 +40,13 @@ is changed, then the index position defined by the #defines such as
 ssiACT1_INDEX above must also be updated. */
 static const char *pccSSITags[] =
 {
-/*	"alarm0",
-	"alarm1",
-	"alarm2",
+	"alm0",
+	"alm1",
+	"alm2",
 	"Tmax",
 	"Tmin",
 	"Bmin",
-	"Smin", */
+	"Smin",
 	"act0",
 	"act1",
 	"act2",

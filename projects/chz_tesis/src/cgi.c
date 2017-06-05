@@ -13,7 +13,7 @@
 
 tCGI cgi_handlers[]={
 		{"/actuadores.cgi",actuatorsHandler},
-		{"/alarm.cgi",actuatorsHandler},
+		{"/alarm.cgi",alarmHandler},
 		{"/network.cgi",actuatorsHandler},
 //		{"/testAJAX.cgi",AJAXHandler},
 };

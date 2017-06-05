@@ -76,15 +76,15 @@ const char *alarmHandler(int iIndex, int iNumParams, char *pcParam[], char *pcVa
 			alarm_values[3]= atoi(pcValue[i]);
 			continue;
 		}
-		if( strcmp(pcParam[i], "alarm0") == 0){
+		if( strcmp(pcParam[i], "alm0") == 0){
 			alarmState[0]= ON;
 			continue;
 		}
-		if( strcmp(pcParam[i], "alarm1") == 0){
+		if( strcmp(pcParam[i], "alm1") == 0){
 					alarmState[1]= ON;
 			continue;
 		}
-		if( strcmp(pcParam[i], "alarm2") == 0){
+		if( strcmp(pcParam[i], "alm2") == 0){
 			alarmState[2]= ON;
 			continue;
 		}

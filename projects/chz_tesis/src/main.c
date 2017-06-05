@@ -150,7 +150,7 @@ static void vSetupIFTask (void *pvParameters) {
 #endif
 
 	/* Initialize and start application */
-	tcpecho_init();
+	//tcpecho_init();
 	adcInit();
 
 	CGIinit();
@@ -261,7 +261,11 @@ int main(void)
 	xTaskCreate(vSetupIFTask, (signed char *) "SetupIFx",
 				configMINIMAL_STACK_SIZE, NULL, (tskIDLE_PRIORITY + 1UL),
 				(xTaskHandle *) NULL);
-	xTaskCreate(task, (const char *)"task", configMINIMAL_STACK_SIZE*2, 0, tskIDLE_PRIORITY+1, 0);
+
+	/* Iniciar la tarea que toma y calcula la temperatura. */
+	vStartTemperaturaTask();
+
+	xTaskCreate(task, (const char *)"task", configMINIMAL_STACK_SIZE*2, 0, tskIDLE_PRIORITY+4, 0);
 
 
 	/* Start the scheduler */
