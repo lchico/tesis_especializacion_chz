@@ -11,7 +11,9 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "ciaaIO.h"
+#include "ciaaUART.h"
 #include "stdlib.h"
+#include "modem.h"
 
 state_t actuatorState[4] = {OFF,OFF,OFF,OFF};
 int alarm_values[NRO_ALARMS+1] = {TMIN,TMAX,BMIN,SMIN};
@@ -97,8 +99,11 @@ const char *alarmHandler(int iIndex, int iNumParams, char *pcParam[], char *pcVa
 
 void task(void * a)
 {
+	int i=0;
+
 	while (1) {
 		ciaaToggleOutput(5);
-		vTaskDelay(500 / portTICK_RATE_MS);
+		control_modem();
+		vTaskDelay(1500 / portTICK_RATE_MS);
 	}
 }

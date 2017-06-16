@@ -12,6 +12,7 @@
 
 #define configTEMPERATURA_STACK_SIZE configMINIMAL_STACK_SIZE
 #define configTEMPERATURA_TASK_PRIORITY tskIDLE_PRIORITY+4
+#define TIMER_SAMPLE 1 // Check temperature TIMER_SAMPLE seconds.
 
 typedef struct {
 	uint16_t first_last;

@@ -92,7 +92,7 @@ static void prvTemperaturaTask( void *pvParameters ){
 
 	for( ;; )
 	{
-		vTaskDelayUntil( &xLastWakeTime, 1000 );
+		vTaskDelayUntil( &xLastWakeTime, 1000 * TIMER_SAMPLE );
 		temp_value=get_temp();
 		ret=average( &temperature, temp_value);
 		Temperatura= (ret - CalCeroTempe)*FEscalaTempe;

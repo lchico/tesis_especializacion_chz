@@ -62,6 +62,8 @@
 #include "tcpecho.h"
 #include "sensores.h"
 #include "actuadores.h"
+#include "modem.h"
+#include "ciaaUART.h"
 
 #if defined(lpc4337_m4)
 #include "ciaaIO.h"
@@ -88,6 +90,10 @@ static void prvSetupHardware(void)
 {
 	SystemCoreClockUpdate();
 	Board_Init();
+	ciaaUARTInit();
+
+
+
 
 #if defined(lpc4337_m4)
 	ciaaIOInit();
@@ -265,7 +271,7 @@ int main(void)
 	/* Iniciar la tarea que toma y calcula la temperatura. */
 	vStartTemperaturaTask();
 
-	xTaskCreate(task, (const char *)"task", configMINIMAL_STACK_SIZE*2, 0, tskIDLE_PRIORITY+4, 0);
+	xTaskCreate(task, (const char *)"task", configMINIMAL_STACK_SIZE*3, 0, tskIDLE_PRIORITY+4, 0);
 
 
 	/* Start the scheduler */
