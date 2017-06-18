@@ -13,9 +13,12 @@
 #include "sensores.h"
 #include "string.h"
 #include "actuadores.h"
+#include "modem.h"
+
 
 extern int alarm_values[];
 extern state_t alarmState[];
+
 
 
 
@@ -75,13 +78,12 @@ uint16_t SSIHandler( int iIndex, char *pcBuffer, int iBufferLength )
 			GetTemperatura( pcBuffer );
 			break;
 	case ssiSEN2_INDEX:
-			GetTemperatura( pcBuffer );
+			// get signal gsm
+			GetGSM_signal( pcBuffer );
 			break;
-
 	default:
 		strcpy( pcBuffer, "Error" );
 		break;
 	}
-
 	return strlen( pcBuffer );
 }

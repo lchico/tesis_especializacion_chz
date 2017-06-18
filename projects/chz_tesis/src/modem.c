@@ -9,45 +9,83 @@
 typedef enum {AT_OK,AT_ERROR,AT_SIGNAL,SET_TEXMODE,WELCOME_MSG} modem_state_t;
 
 static modem_state_t mstate=SET_TEXMODE;
+static int gsm_signal=0;
 
-
-void send_modem(char *msg){
-		uartSend(CIAA_UART_232,msg, strlen(msg)*sizeof(char));
-}
 
 void control_modem(void){
 	switch (mstate){
 		case SET_TEXMODE:
-				send_modem(AT_TEXT_MODE);
-				vTaskDelay(2500 / portTICK_RATE_MS);
+				send_msg_modem(MSG_AT_TEXT_MODE);
+				vTaskDelay(1500 / portTICK_RATE_MS);
 				if ( SUCCESS == check_response()){
-					mstate= WELCOME_MSG;
+					mstate= AT_SIGNAL;
 				}
 				break;
 		case WELCOME_MSG:
-			send_modem("Perfect");
+			send_msg_modem("Perfect");
 				if ( SUCCESS == check_response() ){
+					mstate= AT_SIGNAL;
+				}
+				break;
+		case AT_SIGNAL:
+				send_msg_modem(MSG_AT_SIGNAL);
+				vTaskDelay(1500 / portTICK_RATE_MS);
+				if ( SUCCESS == get_signal() ){
 					mstate= SET_TEXMODE;
 				}
 				break;
 		default :
-			send_modem("ERRORRORRRRR\n\r");
+			send_msg_modem("ERRORRORRRRR\n\r");
 			break;
 
 	}
 }
 
 Status check_response(void){
-	char at_ok[25];
+	char at_ok[10];
 	char rta_at[25];
-
 	if ( 0 < uartRecv(CIAA_UART_232,rta_at,UART_BUF_SIZE) ){
-		sscanf(rta_at,"%s",at_ok);
+		sscanf(rta_at,"%*s%s",at_ok);
 		if( strcmp(at_ok,"OK") == 0 ){
 			return SUCCESS;
 		}
 	}
 	return ERROR;
+}
+
+Status get_signal(void){
+	int qsig;
+	char at_ok[10];
+	char rta_at[25];
+	if ( 0 < uartRecv(CIAA_UART_232,rta_at,UART_BUF_SIZE) ){
+		sscanf(rta_at,"%*s%s%s",at_ok);
+		qsig=atoi(at_ok);
+		if(qsig != 0){
+			if( qsig < 5){
+				gsm_signal =0;
+			}else if (qsig < 10){
+					gsm_signal =1;
+			}else if (qsig < 15){
+				gsm_signal = 2;
+			}else if (qsig < 20){
+				gsm_signal = 3;
+			}else if (qsig > 25){
+				gsm_signal = 4;
+			}
+			return SUCCESS;
+		}
+	}
+	return ERROR;
+}
+
+void send_msg_modem(char *msg){
+		uartSend(CIAA_UART_232,msg, strlen(msg)*sizeof(char));
+}
+
+void GetGSM_signal( signed char *pcWriteBuffer )
+{
+	*pcWriteBuffer = ( signed char ) 0x00;
+	sprintf( ( char * ) pcWriteBuffer, "%i", gsm_signal );
 }
 
 /*

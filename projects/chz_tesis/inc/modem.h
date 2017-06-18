@@ -12,7 +12,7 @@
 
 #define MSG_AT_INIT "ATZ\r\n"
 #define MSG_AT_SIGNAL "AT+CSQ\r\n"
-#define AT_TEXT_MODE "AT+CMGF=1\r\n"
+#define MSG_AT_TEXT_MODE "AT+CMGF=1\r\n"
 #define AT_WRITE_SMS "AT+CMGW"
 #define AT_DELETE "AT+CMGD"
 #define AT_ADDRES_TYPE "145"
@@ -52,6 +52,7 @@
 #define RTA_CHAR_MIN_SIGNAL 14
 #define RTA_CMGL_UNSENT 9
 
+
 struct gsm{
 	char message[BUFFER_MSJ];
 	char rta_message[BUFFER_MSJ+BUFFER_PHONE_NUMBER];
@@ -60,9 +61,12 @@ struct gsm{
 	int nro_msj;
 };
 
-void send_modem(char *msg);
+void send_msg_modem(char *msg);
 Status check_response(void);
+Status get_signal(void);
 void control_modem(void);
+void GetGSM_signal( signed char *pcWriteBuffer );
+
 
 /*
 Status gsm_at_init(LPC_UART_TypeDef *UARTx);

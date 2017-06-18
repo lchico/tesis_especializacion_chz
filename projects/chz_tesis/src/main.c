@@ -271,7 +271,7 @@ int main(void)
 	/* Iniciar la tarea que toma y calcula la temperatura. */
 	vStartTemperaturaTask();
 
-	xTaskCreate(task, (const char *)"task", configMINIMAL_STACK_SIZE*3, 0, tskIDLE_PRIORITY+4, 0);
+	xTaskCreate(task, (const char *)"task", configMINIMAL_STACK_SIZE*4, 0, tskIDLE_PRIORITY+4, 0);
 
 
 	/* Start the scheduler */

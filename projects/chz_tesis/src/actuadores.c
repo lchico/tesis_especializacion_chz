@@ -42,7 +42,6 @@ void toggleActuatorState(int portNum){
 }
 
 const char *actuatorsHandler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[]) {
-
 	if( strcmp(pcParam[0], "Tmin") == 0)
 	{
 		if( strcmp(pcValue[0], "ON") == 0)
@@ -99,11 +98,9 @@ const char *alarmHandler(int iIndex, int iNumParams, char *pcParam[], char *pcVa
 
 void task(void * a)
 {
-	int i=0;
-
 	while (1) {
 		ciaaToggleOutput(5);
 		control_modem();
-		vTaskDelay(1500 / portTICK_RATE_MS);
+		vTaskDelay(3500 / portTICK_RATE_MS);
 	}
 }

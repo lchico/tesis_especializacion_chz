@@ -18,8 +18,8 @@
 uint16_t CalCeroTempe = 200; // Calibración del ADC de temperatura.
 float FEscalaTempe = 0.1025f; // Factor de escala de temperatura.
 float Temperatura = 0;
-float UmbralTempeMax = 50.0f; // Umbral de temperatura máxima en ºC.
-float UmbralTempeMin = -10.0f; // Umbral de temperatura mínima en ºC.
+//float UmbralTempeMax = 50.0f; // Umbral de temperatura máxima en ºC.
+//float UmbralTempeMin = -10.0f; // Umbral de temperatura mínima en ºC.
 
 
 /* P0.23 -> AD0 */
