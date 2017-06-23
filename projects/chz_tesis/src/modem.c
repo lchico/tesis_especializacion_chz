@@ -100,7 +100,7 @@ Status get_signal(void){
 				gsm_signal = 2;
 			}else if (qsig < 20){
 				gsm_signal = 3;
-			}else if (qsig > 25){
+			}else if (qsig >= 20){
 				gsm_signal = 4;
 			}
 			return SUCCESS;

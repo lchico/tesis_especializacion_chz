@@ -42,14 +42,12 @@ static void prvControlTask( void *pvParameters ){
 		/* CHECK TEMPERATURE */
 		if (((float) alarm_values[1] - Temperatura) < 0){  /* Si TEMPERATURA > MAXIMO */
 			if ( alarmState[0] == ON){   /*  Y esta en control automático */
-				actuatorState[0]=ON; /* Activo electrovalvula */
-				actuatorState[4]=ON; /* Bomba refrigeracion */
+				encender_refrigeracion();
 			}
 			sms_flag++; /* SETEO FLAG PARA EVIO DE REPORTE SI ENVIO SMS */
 		}else if(((float) alarm_values[0] - Temperatura) > 0) { // O SI LA TEMPERATURA < MINIMA
 			if ( alarmState[0] == ON){   /*  Y esta en control automático */
-				actuatorState[0]= OFF; /* Desactivo electrovalvula */
-				actuatorState[4]= OFF; /* Apago la bomba de refrigeracion refrigeracion */
+				apagar_refrigeracion();
 			}
 			sms_flag++; /* SETEO FLAG PARA EVIO DE REPORTE SI ENVIO SMS */
 		}else{
@@ -62,6 +60,7 @@ static void prvControlTask( void *pvParameters ){
 		// SI ALGUN FLAG DE SMS ESTA ENCENDIDO Y ESTA ACTIVO EL ENVIO DE SMS?
 			// => SI ENTONCES ENVIO NOTIFICACION DE ALERTA Y ESTADO (REPORT)
 		 */
+
 	}
 }
 

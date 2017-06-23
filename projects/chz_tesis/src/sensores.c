@@ -14,12 +14,14 @@
 
 
 
-//uint16_t CalCeroTempe = 1262; // Calibración del ADC de temperatura.
+
 uint16_t CalCeroTempe = 200; // Calibración del ADC de temperatura.
 float FEscalaTempe = 0.1025f; // Factor de escala de temperatura.
 float Temperatura = 0;
-//float UmbralTempeMax = 50.0f; // Umbral de temperatura máxima en ºC.
-//float UmbralTempeMin = -10.0f; // Umbral de temperatura mínima en ºC.
+
+uint16_t CalCeroBatt = 200; // Calibración del ADC de temperatura.
+float FEscalaBatt = 0.1025f; // Factor de escala de temperatura.
+uint16_t Bateria = 0;
 
 
 /* P0.23 -> AD0 */
@@ -29,11 +31,14 @@ void adcInit(void)
 
 	Chip_ADC_Init(LPC_ADC0, &adc);
 	Chip_ADC_SetSampleRate(LPC_ADC0, &adc, 88000);
-
+	/* Temperature adc PIN: 3 de J16 contando desde J4 */
 	Chip_ADC_EnableChannel(LPC_ADC0, ADC_CH1, ENABLE);
 	Chip_ADC_Int_SetChannelCmd(LPC_ADC0, ADC_CH1, ENABLE);
-	Chip_ADC_SetBurstCmd(LPC_ADC0, ENABLE);
+	/* Battery adc PIN: 1 de J16 contando desde J4 */
+	Chip_ADC_EnableChannel(LPC_ADC0, ADC_CH3, ENABLE);
+	Chip_ADC_Int_SetChannelCmd(LPC_ADC0, ADC_CH3, ENABLE);
 
+	Chip_ADC_SetBurstCmd(LPC_ADC0, ENABLE);
 }
 
 
@@ -41,9 +46,14 @@ uint16_t get_temp(){
 	uint16_t data;
 	Chip_ADC_ReadValue(LPC_ADC0, ADC_CH1, &data);
 	return data;
-//	sprintf(temp_buff,"%d",data);
 }
 
+
+uint16_t get_battery(){
+	uint16_t data;
+	Chip_ADC_ReadValue(LPC_ADC0, ADC_CH3, &data);
+	return data;
+}
 
 
 float average(samples_t *temp,uint16_t values){
@@ -78,15 +88,20 @@ void vStartTemperaturaTask( void ){
 static void prvTemperaturaTask( void *pvParameters ){
 	( void ) pvParameters;
 	portTickType xLastWakeTime;
-	uint16_t temp_value;
+	uint16_t temp_value,battery_value;
 	float ret;
-	static samples_t temperature;
+	static samples_t temperature,battery;
 	int i=0;
 	temperature.num_samples=0;
 	temperature.first_last=0;
 	temperature.sum_total=0;
-	for (i=0 ; i<MUESTRAS ;i++)
+	battery.num_samples=0;
+	battery.first_last=0;
+	battery.sum_total=0;
+	for (i=0 ; i<MUESTRAS ;i++){
 		temperature.samples[i]=0;
+		battery.samples[i]=0;
+	}
 
 	xLastWakeTime = xTaskGetTickCount();
 
@@ -96,8 +111,29 @@ static void prvTemperaturaTask( void *pvParameters ){
 		temp_value=get_temp();
 		ret=average( &temperature, temp_value);
 		Temperatura= (ret - CalCeroTempe)*FEscalaTempe;
+
+		battery_value=get_battery();
+		ret=average( &battery, battery_value);
+		ret = (ret - CalCeroBatt)*FEscalaBatt;
+		scale_battery(ret);
 	}
 
+}
+
+void scale_battery(float aux){
+	if( aux < 5){
+		Bateria =1;
+	}else if (aux < 10){
+		Bateria =2;
+	}else if (aux < 15){
+		Bateria = 3;
+	}else if (aux < 20){
+		Bateria = 4;
+	}else if (aux < 25){
+		Bateria = 5;
+	}else{
+		Bateria = 0;
+	}
 }
 
 
@@ -111,4 +147,17 @@ void GetTemperatura( signed char *pcWriteBuffer )
 {
 	*pcWriteBuffer = ( signed char ) 0x00;
 	sprintf( ( char * ) pcWriteBuffer, "%.2f", Temperatura );
+}
+
+/*********************************************************************//**
+ * @brief 		Función para enviar por SSI la temperatura leida.
+ *
+ * @param[out]	*pcWriteBuffer Puntero para escribir el texto html a enviar.
+ * @return 		None
+ **********************************************************************/
+
+void GetBateria( signed char *pcWriteBuffer )
+{
+	*pcWriteBuffer = ( signed char ) 0x00;
+	sprintf( ( char * ) pcWriteBuffer, "%i", Bateria );
 }

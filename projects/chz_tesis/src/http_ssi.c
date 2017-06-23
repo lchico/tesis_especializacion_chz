@@ -18,6 +18,7 @@
 
 extern int alarm_values[];
 extern state_t alarmState[];
+extern state_t actuatorState[4];
 
 
 
@@ -55,19 +56,19 @@ uint16_t SSIHandler( int iIndex, char *pcBuffer, int iBufferLength )
 			sprintf(pcBuffer,"%i", alarm_values[3]); // Battery min level update value
 			break;
 	case ssiACT0_INDEX:
-			ptrState = "ON";
+			ptrState = actuatorState[0]?"ON":"OFF";
 			strcpy( pcBuffer, ptrState );
 			break;
 	case ssiACT1_INDEX:
-			ptrState = "OFF";
+			ptrState =  actuatorState[1]?"ON":"OFF";
 			strcpy( pcBuffer, ptrState );
 			break;
 	case ssiACT2_INDEX:
-			ptrState = "ON";
+			ptrState =  actuatorState[2]?"ON":"OFF";
 			strcpy( pcBuffer, ptrState );
 			break;
 	case ssiACT3_INDEX:
-			ptrState = "OFF";
+			ptrState =  actuatorState[3]?"ON":"OFF";
 			strcpy( pcBuffer, ptrState );
 			break;
 	case ssiSEN0_INDEX:
@@ -75,7 +76,7 @@ uint16_t SSIHandler( int iIndex, char *pcBuffer, int iBufferLength )
 			GetTemperatura( pcBuffer );
 			break;
 	case ssiSEN1_INDEX:
-			GetTemperatura( pcBuffer );
+			GetBateria( pcBuffer );
 			break;
 	case ssiSEN2_INDEX:
 			// get signal gsm

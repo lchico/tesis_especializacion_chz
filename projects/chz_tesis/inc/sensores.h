@@ -28,6 +28,9 @@ float average(samples_t *temp,uint16_t values);
 void vStartTemperaturaTask( void );
 static void prvTemperaturaTask( void *pvParameters );
 void GetTemperatura( signed char *pcWriteBuffer );
+void GetBateria( signed char *pcWriteBuffer );
+void scale_battery(float aux);
+
 
 
 

@@ -251,11 +251,10 @@ function temp_arrow(temp){
 		var MAX_TEMP_PIXEL = 30;
 		var MIN_TEMP_PIXEL = 220;
 
-            	var max=document.getElementById("therm_max").innerHTML.replace(".",",");
-            	var min=document.getElementById("therm_min").innerHTML.replace(".",",");
-                var temp=temp.replace(".",",");
+            	var max=document.getElementById("therm_max").innerHTML;
+            	var min=document.getElementById("therm_min").innerHTML;
 		m = -71  / (max-min) ;
-		b = 125.5 - m*(max+min)/2;
+		b = 125.5 - m*(max*1+min*1)/2;
 		mv_arrow = b  + m*temp  ;
 		
 		if ( mv_arrow < MAX_TEMP_PIXEL ){

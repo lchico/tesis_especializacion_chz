@@ -52,6 +52,9 @@ const char *actuatorsHandler(int iIndex, int iNumParams, char *pcParam[], char *
 const char *alarmHandler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[]) ;
 const char *AJAXHandler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[]);
 
+void encender_refrigeracion(void);
+void apagar_refrigeracion(void);
+
 void task(void * a);
 
 

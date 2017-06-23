@@ -30,18 +30,16 @@ int alarm_values[NRO_ALARMS+1] = {TMIN,TMAX,BMIN,SMIN};
  *  Alarm 1 =>  Batteri Level
  *  Alarm 2 => Signal GPRS
  */
-state_t alarmState[NRO_ALARMS] = {OFF,OFF,OFF};
+state_t alarmState[NRO_ALARMS] = {ON,ON,ON};
 
-
+/*
 char* getActuatorState(int portNum){
-
 	char *ptrActuatorState;
 
 	if(OFF == actuatorState[portNum])
 		return ptrActuatorState = "APAGADO";	//(char *) estadoActuadorApagado;
 	else
 		return ptrActuatorState = "ENCENDIDO";	//(char *) estadoActuadorEncendido;
-
 }
 
 void toggleActuatorState(int portNum){
@@ -53,6 +51,21 @@ void toggleActuatorState(int portNum){
 		actuatorState[portNum] = OFF;
 
 }
+*/
+
+void encender_refrigeracion(void){
+	ciaaWriteOutput(1, ON );
+
+	actuatorState[0]=ON; /* Activo electrovalvula */
+	actuatorState[3]=ON; /* Bomba refrigeracion */
+}
+
+void apagar_refrigeracion(void){
+	ciaaWriteOutput(1, OFF);
+	actuatorState[0]=OFF; /* Activo electrovalvula */
+	actuatorState[3]=OFF; /* Bomba refrigeracion */
+}
+
 
 const char *actuatorsHandler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[]) {
 	if( strcmp(pcParam[0], "Tmin") == 0)
@@ -95,7 +108,7 @@ const char *alarmHandler(int iIndex, int iNumParams, char *pcParam[], char *pcVa
 			continue;
 		}
 		if( strcmp(pcParam[i], "alm1") == 0){
-					alarmState[1]= ON;
+			alarmState[1]= ON;
 			continue;
 		}
 		if( strcmp(pcParam[i], "alm2") == 0){
@@ -113,6 +126,7 @@ void task(void * a)
 {
 	while (1) {
 		ciaaToggleOutput(5);
+
 		control_modem();
 		vTaskDelay(3500 / portTICK_RATE_MS);
 	}
