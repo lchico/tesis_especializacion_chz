@@ -15,8 +15,21 @@
 #include "stdlib.h"
 #include "modem.h"
 
+/*
+ * Actuador 0 => Electrovalvula 0
+ * Actuador 1 => Electrovalvula 1
+ * Actuador 2 => Electrovalvula 2
+ * Motor 1 => Motor Bomba refrigeración
+ *
+*/
 state_t actuatorState[4] = {OFF,OFF,OFF,OFF};
 int alarm_values[NRO_ALARMS+1] = {TMIN,TMAX,BMIN,SMIN};
+
+/*
+ *  Alarm 0 => Temperatura
+ *  Alarm 1 =>  Batteri Level
+ *  Alarm 2 => Signal GPRS
+ */
 state_t alarmState[NRO_ALARMS] = {OFF,OFF,OFF};
 
 

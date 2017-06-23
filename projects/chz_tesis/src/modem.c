@@ -4,15 +4,17 @@
 
 #include "FreeRTOS.h"
 #include "task.h"
+#include "sensores.h"
 #include "modem.h"
 
-typedef enum {AT_OK,AT_ERROR,AT_SIGNAL,SET_TEXMODE,WELCOME_MSG} modem_state_t;
+typedef enum {AT_OK,CHECK_ALARMS,AT_SIGNAL,SET_TEXMODE,WELCOME_MSG,SEND_REPORT} modem_state_t;
 
 static modem_state_t mstate=SET_TEXMODE;
 static int gsm_signal=0;
-
+int sms_flag=0;
 
 void control_modem(void){
+
 	switch (mstate){
 		case SET_TEXMODE:
 				send_msg_modem(MSG_AT_TEXT_MODE);
@@ -22,7 +24,7 @@ void control_modem(void){
 				}
 				break;
 		case WELCOME_MSG:
-			send_msg_modem("Perfect");
+			//send_msg_modem("Perfect");
 				if ( SUCCESS == check_response() ){
 					mstate= AT_SIGNAL;
 				}
@@ -30,10 +32,23 @@ void control_modem(void){
 		case AT_SIGNAL:
 				send_msg_modem(MSG_AT_SIGNAL);
 				vTaskDelay(1500 / portTICK_RATE_MS);
-				if ( SUCCESS == get_signal() ){
-					mstate= SET_TEXMODE;
+				get_signal();
+				if(sms_flag > 0){
+					mstate= SEND_REPORT;
 				}
+
 				break;
+		case SEND_REPORT:
+				//send_report();
+				// CHECK STATUS
+				//if ( SUCCESS == check_response()){
+					//mstate= SET_TEXMODE;
+				//}
+				sms_flag=0;
+				mstate=AT_SIGNAL;
+				vTaskDelay(4500 / portTICK_RATE_MS);
+				break;
+
 		default :
 			send_msg_modem("ERRORRORRRRR\n\r");
 			break;
@@ -41,10 +56,26 @@ void control_modem(void){
 	}
 }
 
+void send_report(){
+	char command[50];
+	signed char temperatura[5];
+	GetTemperatura( temperatura);
+	sprintf(command,"%s=\"%s\"\r\n","AT+CMGS","64958758");
+	send_msg_modem(command);
+	vTaskDelay(500 / portTICK_RATE_MS);
+	sprintf(command,"Temperatura:%s y Gsm:%i.%c",temperatura,gsm_signal,CTRL_Z_AT);
+	send_msg_modem(command);
+	vTaskDelay(500 / portTICK_RATE_MS);
+	sprintf(command,"%c",CTRL_Z_AT);
+	send_msg_modem(command);
+	vTaskDelay(500 / portTICK_RATE_MS);
+}
+
+
 Status check_response(void){
 	char at_ok[10];
 	char rta_at[25];
-	if ( 0 < uartRecv(CIAA_UART_232,rta_at,UART_BUF_SIZE) ){
+	if ( 0 < uartRecv(CIAA_UART_232,rta_at,25) ){
 		sscanf(rta_at,"%*s%s",at_ok);
 		if( strcmp(at_ok,"OK") == 0 ){
 			return SUCCESS;
@@ -90,7 +121,7 @@ void GetGSM_signal( signed char *pcWriteBuffer )
 
 /*
 
-Status	gsm_signal(LPC_UART_TypeDef *UARTx){
+OK  Status	gsm_signal(LPC_UART_TypeDef *UARTx){
 	char rta_at[BUFFER_MSJ_SIGNAL];
 	char aux[BUFFER_AUX];
 	uint32_t i;
@@ -109,7 +140,7 @@ Status	gsm_signal(LPC_UART_TypeDef *UARTx){
 	return SUCCESS;
 }
 
-Status gsm_set_text_mode(LPC_UART_TypeDef *UARTx){
+OK  Status gsm_set_text_mode(LPC_UART_TypeDef *UARTx){
 	char rta_at[BUFFER_AUX];
 	char at_ok[BUFFER_MIN];
 

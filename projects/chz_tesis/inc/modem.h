@@ -52,6 +52,8 @@
 #define RTA_CHAR_MIN_SIGNAL 14
 #define RTA_CMGL_UNSENT 9
 
+extern int sms_flag;
+
 
 struct gsm{
 	char message[BUFFER_MSJ];
@@ -66,6 +68,7 @@ Status check_response(void);
 Status get_signal(void);
 void control_modem(void);
 void GetGSM_signal( signed char *pcWriteBuffer );
+void send_report();
 
 
 /*

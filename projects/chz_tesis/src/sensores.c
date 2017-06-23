@@ -110,5 +110,5 @@ static void prvTemperaturaTask( void *pvParameters ){
 void GetTemperatura( signed char *pcWriteBuffer )
 {
 	*pcWriteBuffer = ( signed char ) 0x00;
-	sprintf( ( char * ) pcWriteBuffer, "%2f", Temperatura );
+	sprintf( ( char * ) pcWriteBuffer, "%.2f", Temperatura );
 }

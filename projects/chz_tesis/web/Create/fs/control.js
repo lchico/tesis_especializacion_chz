@@ -16,9 +16,10 @@ function loop() {
 	setTimeout("loop()",1000);
 	//var d = new Date();
 	//var n = d.getSeconds(); 
+        //n=n.replace(".",",");
 	//signal_ctrl(n%6);
 	//battery_state(n%6);
-	//temp_arrow(n%20,18,16);
+        //temp_arrow(n,18,16);
 
 }
 
@@ -250,8 +251,9 @@ function temp_arrow(temp){
 		var MAX_TEMP_PIXEL = 30;
 		var MIN_TEMP_PIXEL = 220;
 
-            	var max=document.getElementById("therm_max").innerHTML;
-            	var min=document.getElementById("therm_min").innerHTML;
+            	var max=document.getElementById("therm_max").innerHTML.replace(".",",");
+            	var min=document.getElementById("therm_min").innerHTML.replace(".",",");
+                var temp=temp.replace(".",",");
 		m = -71  / (max-min) ;
 		b = 125.5 - m*(max+min)/2;
 		mv_arrow = b  + m*temp  ;
