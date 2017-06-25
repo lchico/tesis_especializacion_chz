@@ -76,16 +76,16 @@ float average(samples_t *temp,uint16_t values){
 
 
 
-void vStartTemperaturaTask( void ){
-	xTaskCreate( 	prvTemperaturaTask,						/* Crea la tarea prvTemperaturaTask. */
-					( const int8_t * const ) "Temper", 		/* Texto con el nombre de la tarea (solamente para Debug).  El kernel no usa este nombre. */
+void vStartSensorTask( void ){
+	xTaskCreate( 	prvSensorTask,						/* Crea la tarea prvTemperaturaTask. */
+					( const int8_t * const ) "Sensor", 		/* Texto con el nombre de la tarea (solamente para Debug).  El kernel no usa este nombre. */
 					configTEMPERATURA_STACK_SIZE,			/* Tamaño del stack asociado a la tarea. */
 					NULL,									/* Parámetro no usado (NULL). */
 					configTEMPERATURA_TASK_PRIORITY,		/* Prioridad de la tarea. */
 					NULL );									/* No se requiere de un manejador para esta tarea (NULL). */
 }
 
-static void prvTemperaturaTask( void *pvParameters ){
+static void prvSensorTask( void *pvParameters ){
 	( void ) pvParameters;
 	portTickType xLastWakeTime;
 	uint16_t temp_value,battery_value;
@@ -122,17 +122,17 @@ static void prvTemperaturaTask( void *pvParameters ){
 
 void scale_battery(float aux){
 	if( aux < 5){
-		Bateria =1;
-	}else if (aux < 10){
-		Bateria =2;
-	}else if (aux < 15){
-		Bateria = 3;
-	}else if (aux < 20){
-		Bateria = 4;
-	}else if (aux < 25){
-		Bateria = 5;
-	}else{
 		Bateria = 0;
+	}else if (aux < 10){
+		Bateria = 1;
+	}else if (aux < 15){
+		Bateria = 2;
+	}else if (aux < 20){
+		Bateria = 3;
+	}else if (aux < 25){
+		Bateria = 4;
+	}else{
+		Bateria = 5;
 	}
 }
 

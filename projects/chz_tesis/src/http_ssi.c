@@ -16,12 +16,6 @@
 #include "modem.h"
 
 
-extern int alarm_values[];
-extern state_t alarmState[];
-extern state_t actuatorState[4];
-
-
-
 
 uint16_t SSIHandler( int iIndex, char *pcBuffer, int iBufferLength )
 {

@@ -93,9 +93,6 @@ static void prvSetupHardware(void)
 	Board_Init();
 	ciaaUARTInit();
 
-
-
-
 #if defined(lpc4337_m4)
 	ciaaIOInit();
 #endif
@@ -269,11 +266,21 @@ int main(void)
 				configMINIMAL_STACK_SIZE, NULL, (tskIDLE_PRIORITY + 1UL),
 				(xTaskHandle *) NULL);
 
-	/* Iniciar la tarea que toma y calcula la temperatura. */
-	vStartTemperaturaTask();
+	/* *  Iniciar la tarea que toma y calcula la temperatura y el
+	 * estado de la Bateria
+	 * */
+	vStartSensorTask();
 
-	xTaskCreate(task, (const char *)"task", configMINIMAL_STACK_SIZE*4, 0, tskIDLE_PRIORITY+4, 0);
+	/*
+	 * Inicio la tarea del modem, encargada de verificar la señal GSM,
+	 * Enviar mensajes de alerta por SMS
+	 */
+	vStartModemTask();
 
+	/*
+	 * Tarea encargada de chekear el estado de los sensores, activar las alertas y acutar
+	 * sobre las mismas.
+	 */
 	vStartControlTask();
 
 	/* Start the scheduler */

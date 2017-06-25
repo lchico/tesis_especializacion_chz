@@ -8,7 +8,9 @@
 #ifndef GSM_H_
 #define GSM_H_
 
-
+#define configMODEM_STACK_SIZE configMINIMAL_STACK_SIZE*2
+#define configMODEM_TASK_PRIORITY tskIDLE_PRIORITY+4
+#define TIMER_MODEM 2 // Check temperature TIMER_SAMPLE seconds.
 
 #define MSG_AT_INIT "ATZ\r\n"
 #define MSG_AT_SIGNAL "AT+CSQ\r\n"
@@ -18,7 +20,7 @@
 #define AT_ADDRES_TYPE "145"
 #define AT_MSJ_STATUS "UNSENT"
 #define AT_READ_SMS "AT+CMGR"
-#define AT_SEND_SMS "AT+CMSS"
+#define AT_SEND_SMS "AT+CMGS"
 #define MSG_AT_OK "OK"
 #define MSG_AT_ERROR "ERROR"
 
@@ -46,13 +48,18 @@
 #define BUFFER_AUX 250
 #define BUFFER_MIN 5
 
-#define CEL_PHONE "+5491164958758"
+#define CEL_PHONE "64958758"
 #define BUFFER_PHONE_NUMBER 13 //54-911-54548829 => CANTIDAD DE NUMEROS
 #define MIN_GSM_SIGNAL 31
 #define RTA_CHAR_MIN_SIGNAL 14
 #define RTA_CMGL_UNSENT 9
 
-extern int sms_flag;
+
+typedef enum sms_flags_t {SOBRE_TEMPERATURA_ALERT=0,BAJA_TEMPERATURA_ALERT,BATERIA_ALERT,GSM_ALERT,ALL_OK} sms_flags_t;
+#define NRO_SMS_FLAGS 4 // Menos el ALL_SMS ya que no lo uso en el arreglo de sms_falgs
+#define TIEMPO_REENVIAR_SMS 10000 // VERIFICAR TIEMPO EQUIVALENTE
+
+extern sms_flags_t sms_flag;
 
 
 struct gsm{
@@ -69,17 +76,8 @@ Status get_signal(void);
 void control_modem(void);
 void GetGSM_signal( signed char *pcWriteBuffer );
 void send_report();
+void vStartModemTask( void );
+static void prvModemTask( void *pvParameters );
 
-
-/*
-Status gsm_at_init(LPC_UART_TypeDef *UARTx);
-Status	gsm_signal(LPC_UART_TypeDef *UARTx);
-Status gsm_set_text_mode(LPC_UART_TypeDef *UARTx);
-Status gsm_save_sms(LPC_UART_TypeDef *UARTx,struct gsm *data);
-Status gsm_delete_sms(LPC_UART_TypeDef *UARTx, int i); //i debe ser mayor 0
-Status gsm_msj_not_send(LPC_UART_TypeDef *UARTx, int *not_send);
-Status gsm_send_sms(LPC_UART_TypeDef *UARTx,int *msj_to_send);
-void clear_array_message(int *message);
-*/
 
 #endif /* GSM_H_ */

@@ -1,10 +1,9 @@
 /*
- * http_ssi.h
+ * sensores.c
  *
- *  Created on: 20 de may. de 2016
- *      Author: pato
+ *  Created on: Apr 18, 2017
+ *      Author: lchico
  */
-
 #ifndef INC_SENSORES_H_
 #define INC_SENSORES_H_
 
@@ -13,6 +12,9 @@
 #define configTEMPERATURA_STACK_SIZE configMINIMAL_STACK_SIZE
 #define configTEMPERATURA_TASK_PRIORITY tskIDLE_PRIORITY+4
 #define TIMER_SAMPLE 1 // Check temperature TIMER_SAMPLE seconds.
+
+extern uint16_t Bateria;
+extern float Temperatura;
 
 typedef struct {
 	uint16_t first_last;
@@ -25,8 +27,8 @@ typedef struct {
 void adcInit(void);
 uint16_t get_temp(void);
 float average(samples_t *temp,uint16_t values);
-void vStartTemperaturaTask( void );
-static void prvTemperaturaTask( void *pvParameters );
+void vStartSensorTask( void );
+static void prvSensorTask( void *pvParameters );
 void GetTemperatura( signed char *pcWriteBuffer );
 void GetBateria( signed char *pcWriteBuffer );
 void scale_battery(float aux);

@@ -13,7 +13,7 @@ alert("hola");
 function loop() {
 	if( !data_received )
 		makeRequest("ajax.shtml");
-	setTimeout("loop()",1000);
+	setTimeout("loop()",2000);
 	//var d = new Date();
 	//var n = d.getSeconds(); 
         //n=n.replace(".",",");
@@ -183,7 +183,7 @@ case "0":
 	document.getElementById("batt2").style.visibility='hidden'
 	document.getElementById("batt3").style.visibility='hidden'
 	document.getElementById("batt4").style.visibility='hidden'
-	document.getElementById("ray").style.visibility='visible'
+	document.getElementById("ray").style.visibility='hidden'
 	break;
 case "1":
 	document.getElementById("batt0").style.visibility='visible'
@@ -223,7 +223,7 @@ case "5":
 	document.getElementById("batt2").style.visibility='visible'
 	document.getElementById("batt3").style.visibility='visible'
 	document.getElementById("batt4").style.visibility='visible'
-	document.getElementById("ray").style.visibility='hidden'
+	document.getElementById("ray").style.visibility='visible'
 	break;
 default:
 	document.getElementById("batt0").style.visibility='hidden'

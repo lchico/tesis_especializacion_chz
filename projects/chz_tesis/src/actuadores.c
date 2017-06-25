@@ -15,67 +15,58 @@
 #include "stdlib.h"
 #include "modem.h"
 
-/*
- * Actuador 0 => Electrovalvula 0
- * Actuador 1 => Electrovalvula 1
- * Actuador 2 => Electrovalvula 2
- * Motor 1 => Motor Bomba refrigeración
- *
-*/
-state_t actuatorState[4] = {OFF,OFF,OFF,OFF};
-int alarm_values[NRO_ALARMS+1] = {TMIN,TMAX,BMIN,SMIN};
+state_t actuatorState[NRO_ACTUADORES] = {OFF,OFF,OFF,ON}; //,OFF,OFF};
 
+int alarm_values[NRO_ALARMS+1] = {TMIN,TMAX,BMIN,SMIN};
 /*
  *  Alarm 0 => Temperatura
  *  Alarm 1 =>  Batteri Level
  *  Alarm 2 => Signal GPRS
  */
+
 state_t alarmState[NRO_ALARMS] = {ON,ON,ON};
 
-/*
-char* getActuatorState(int portNum){
-	char *ptrActuatorState;
-
-	if(OFF == actuatorState[portNum])
-		return ptrActuatorState = "APAGADO";	//(char *) estadoActuadorApagado;
-	else
-		return ptrActuatorState = "ENCENDIDO";	//(char *) estadoActuadorEncendido;
-}
-
-void toggleActuatorState(int portNum){
-
-	if( OFF == actuatorState[portNum])
-		actuatorState[portNum] = ON;
-
-	else if(ON == actuatorState[portNum])
-		actuatorState[portNum] = OFF;
-
-}
-*/
 
 void encender_refrigeracion(void){
-	ciaaWriteOutput(1, ON );
-
-	actuatorState[0]=ON; /* Activo electrovalvula */
-	actuatorState[3]=ON; /* Bomba refrigeracion */
+	ciaaWriteOutput(1, ON ); /* Rele ADC0 - CHANEL 1 */
+	actuatorState[ELECTROVALVULA0]=ON; /* Activo electrovalvula */
+	actuatorState[BOMBA]=ON; /* Bomba refrigeracion */
 }
 
 void apagar_refrigeracion(void){
-	ciaaWriteOutput(1, OFF);
-	actuatorState[0]=OFF; /* Activo electrovalvula */
-	actuatorState[3]=OFF; /* Bomba refrigeracion */
+	ciaaWriteOutput(1, OFF); /* Rele ADC0 - CHANEL 3 */
+	actuatorState[ELECTROVALVULA0]=OFF; /* Activo electrovalvula */
+	actuatorState[BOMBA]=OFF; /* Bomba refrigeracion */
 }
 
 
 const char *actuatorsHandler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[]) {
-	if( strcmp(pcParam[0], "Tmin") == 0)
+	if( strcmp(pcParam[0], "act0") == 0)
 	{
-		if( strcmp(pcValue[0], "ON") == 0)
-			ciaaToggleOutput(7);
-		else if ( strcmp(pcValue[0], "DETENER") == 0)
-			actuatorState[0] = OFF;
+		if( strcmp(pcValue[0], "ON") == 0){
+			actuatorState[ELECTROVALVULA0] = ON;
+		}else if ( strcmp(pcValue[0], "DETENER") == 0){
+			actuatorState[ELECTROVALVULA0] = OFF;
+		}
+	}else if( strcmp(pcParam[0], "act1") == 0){
+			if( strcmp(pcValue[0], "ON") == 0){
+				actuatorState[BOMBA] = ON;
+			}else if ( strcmp(pcValue[0], "DETENER") == 0){
+				actuatorState[BOMBA] = OFF;
+			}
+	}else if( strcmp(pcParam[0], "act2") == 0){
+			if( strcmp(pcValue[0], "ON") == 0){
+				actuatorState[ACTUADOR0] = ON;
+			}else if ( strcmp(pcValue[0], "DETENER") == 0){
+				actuatorState[ACTUADOR0] = OFF;
+			}
+	}else if( strcmp(pcParam[0], "act3") == 0){
+			if( strcmp(pcValue[0], "ON") == 0){
+				actuatorState[ACTUADOR1] = ON;
+			}else if ( strcmp(pcValue[0], "DETENER") == 0){
+				actuatorState[ACTUADOR1] = OFF;
+			}
 	}
-
 	return "/configuracion.shtml";
 }
 
@@ -120,14 +111,3 @@ const char *alarmHandler(int iIndex, int iNumParams, char *pcParam[], char *pcVa
 	return "/configuracion.shtml";
 }
 
-
-
-void task(void * a)
-{
-	while (1) {
-		ciaaToggleOutput(5);
-
-		control_modem();
-		vTaskDelay(3500 / portTICK_RATE_MS);
-	}
-}
