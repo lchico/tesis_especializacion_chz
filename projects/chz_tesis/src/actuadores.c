@@ -15,7 +15,7 @@
 #include "stdlib.h"
 #include "modem.h"
 
-state_t actuatorState[NRO_ACTUADORES] = {OFF,OFF,OFF,ON}; //,OFF,OFF};
+state_t actuatorState[NRO_ACTUADORES] = {ON,OFF,OFF,OFF}; //,OFF,OFF};
 
 int alarm_values[NRO_ALARMS+1] = {TMIN,TMAX,BMIN,SMIN};
 /*

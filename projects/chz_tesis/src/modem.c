@@ -50,7 +50,7 @@ void control_modem(void){
 			   * enviar el mensaje si la
 			   */
 			 	if (xTaskGetTickCount()- sms_timeout[sms_flag] > TIEMPO_REENVIAR_SMS ){
-				 	 send_report();
+				 	// send_report();
 				 	 // CHECK STATUS
 				 	 //if ( SUCCESS == ){
 						//mstate= SET_TEXMODE;
@@ -76,6 +76,9 @@ void send_report(){
 	sprintf(command,"%s=\"%s\"\r\n",AT_SEND_SMS,CEL_PHONE);
 	send_msg_modem(command);
 	vTaskDelay(500 / portTICK_RATE_MS);
+	uartRecv(CIAA_UART_232,command,150*sizeof(char));
+	vTaskDelay(500 / portTICK_RATE_MS);
+
 	sprintf(command,"Temp:%.2f Bat:%i%% y Signal:%i\rBomba: %s Eval: %s Act0: %s Act1: %s.%c",
 			Temperatura,Bateria*20,gsm_signal,actuatorState[BOMBA]?"ON":"OFF",
 			actuatorState[ELECTROVALVULA0]?"ON":"OFF",actuatorState[ACTUADOR0]?"ON":"OFF",
@@ -86,8 +89,9 @@ void send_report(){
 	send_msg_modem(command);
 	vTaskDelay(500 / portTICK_RATE_MS);
 	uartRecv(CIAA_UART_232,command,150*sizeof(char));
-	vTaskDelay(500 / portTICK_RATE_MS);
+	vTaskDelay(800 / portTICK_RATE_MS);
 	uartRecv(CIAA_UART_232,command,150*sizeof(char));
+	vTaskDelay(500 / portTICK_RATE_MS);
 	sscanf(command,"%*s%s%s",at_ok);
 	//check_response();
 }

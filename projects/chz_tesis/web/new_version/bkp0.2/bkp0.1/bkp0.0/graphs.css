@@ -1,0 +1,140 @@
+body{
+  background:#107896;
+  color:white;
+}
+
+table#HeaderMenu{
+  border-spacing: auto auto;
+  width: 100%;    
+  border-collapse: separate;
+  background: black;
+}
+
+h1{
+  position:relative;
+  text-align: center;
+}
+
+a{
+  color:white;
+}
+
+svg{
+ display: block;
+ margin: auto;
+}
+
+/**
+*Contactos de Electrovalvulas
+*/
+div.contacts{
+  position:absolute;
+  right: 50%;
+  left:10%;
+  bottom: 10%;
+}
+
+#act0,#act1,#act2,#act3{
+  stroke:black;
+  stroke-width:2;
+}
+
+.contact_text,#act0_text,#act1_text,#act2_text,#act3_text{
+    fill:white;
+}
+
+/**
+* Config signal gprs
+**/
+
+div.gprs{
+  position:absolute;
+  right: 10%;
+  left:50%;
+  top: 5%;
+}
+
+#floor_gprs{
+   stroke:black;
+   stroke-width:2;
+ }
+
+h3{
+  text-align: center;
+  font-size:20px;
+  fill:blue;
+}
+
+/**
+* thermometer configuration
+**/
+div.thermometer{
+  position:absolute;
+  right: 50%;
+  left:10%;
+  top: 5%;
+  font-size:21px;
+}
+
+#therm_rang_OK{
+  fill:#7FFF00;
+}
+
+#set_alarm,#alarm{
+  fill:black;
+}
+
+#line_max{
+   stroke:black;
+   stroke-width:2;
+ }
+
+#symbC{
+  font-size:22px;
+  fill:black;
+}
+
+#arrow_temp{
+  stroke:black;
+  fill:red;
+
+}
+#tmp_value{
+  stroke-width:0;
+  fill:black;
+}
+
+
+/**
+*Battery functions
+**/
+div.battery{
+  position:absolute;
+  right: 10%;
+  left:50%;
+  bottom: 10%;
+}
+
+#small_ibatt{
+    fill:red; /* white when have charge */
+    stroke-width:5;
+    stroke:white;
+ }
+
+#big_batt{
+  fill:white; /* white when have charge */
+  stroke-width:5;
+  stroke:red; /*gray; /*Change to red when is empty*/
+}
+
+/* Simulate charge or no using visibility:hidden/visible */
+#ray{
+  fill:yellow;
+  stroke:red;
+  width: 100%;
+
+}
+#dig_charge{
+  position: absolute;
+  fill:gray;
+}

@@ -240,20 +240,5 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 
 
 
-p.obs {
-      font-style: italic;
-      font-size:small;
-    }
 
-th,td {
-      padding: 10px;
-        }
-
-#bateria{display:block}
-#temperatura{display:block}
-#actuadores{display:block}
-#señal3g{display:block}
-#cfgTemp{display:none}
-#cfgActuadores{display:none}
-#cfgBat{display:none}
 

@@ -79,7 +79,7 @@
 
 #define configTOTAL_HEAP_SIZE		( ( size_t ) ( 40*1024 ) ) // 32 x 64
 
-#define configMAX_TASK_NAME_LEN		( 20 )
+#define configMAX_TASK_NAME_LEN		( 12 ) //20
 #define configUSE_TRACE_FACILITY	1
 #define configUSE_16_BIT_TICKS		0
 #define configUSE_MALLOC_FAILED_HOOK	1

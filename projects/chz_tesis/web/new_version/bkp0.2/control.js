@@ -234,8 +234,6 @@ default:
 	document.getElementById("ray").style.visibility='hidden'
 	break;
 	}
-
-document.getElementById("dig_charge").innerHTML = level*20+" %";
 }
 
 function temp_arrow(temp){

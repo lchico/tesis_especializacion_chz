@@ -14,7 +14,7 @@
  * Motor 1 => Motor Bomba refrigeración
  *
 */
-enum actuador_t {ELECTROVALVULA0,BOMBA,ACTUADOR0,ACTUADOR1};
+enum actuador_t {ACTUADOR0,ACTUADOR1,ELECTROVALVULA0,BOMBA};
 #define NRO_ACTUADORES 4
 
 

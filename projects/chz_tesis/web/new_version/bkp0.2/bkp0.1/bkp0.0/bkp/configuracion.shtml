@@ -1,0 +1,78 @@
+<html>
+<head>
+<title>Panel de Control - Configuracion </title>
+<meta name="description" content="Monitoreo del proceso de Fermentacion">
+<meta name="author" content="Luis Enrique Chico Capistrano">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="graphs.css">
+
+</head>
+
+<body>
+<div >
+  <table id="HeaderMenu">
+    <th><a href="index.shtml">Monitoreo</a></th>
+    <th><a href="configuracion.shtml">Configuracion</a></th>
+    <th><a href="control.shtml">Control</a></th>
+  </table>
+</div>
+
+<h1> Configuracion de la red </h1>
+
+<form action="network.cgi" id="network">
+  <table>
+    <tr>
+      <th>IP:</th><th> <input type="number" name="ip0" min="0" max="255" style="width: 42px;">.<input type="number" name="ip1" min="0" max="255" style="width: 42px;">.<input type="number" name="ip2" min="0" max="255" style="width: 42px;">.<input type="number" name="ip3" min="0" max="255" style="width: 42px;"></th>
+    </tr>
+    <tr>
+      <th>Mask:</th><th> <input type="number" name="mask0" min="0" max="255" style="width: 42px;">.<input type="number" name="mask1" min="0" max="255" style="width: 42px;">.<input type="number" name="mask2" min="0" max="255" style="width: 42px;">.<input type="number" name="mask3" min="0" max="255" style="width: 42px;"></th>
+    </tr>
+    <tr>
+      <th>Gateway:</th><th> <input type="number" name="gateway0" min="0" max="255" style="width: 42px;">.<input type="number" name="gateway1" min="0" max="255" style="width: 42px;">.<input type="number" name="gateway2" min="0" max="255" style="width: 42px;">.<input type="number" name="gateway3" min="0" max="255" style="width: 42px;"></th>
+    </tr>
+  </table>
+  <br>
+  <input type="submit" value="Submit">
+</form> 
+
+<h1> Estado de las Alarmas </h1>
+<form action="alarm.cgi" id="alarm">
+  <table>
+    <tr>
+      <th> Variables</th> <th>Minimo</th><th>Maximo</th><th>Activo/Inactivo</th>
+    </tr>
+    <tr>
+      <td>Temperatura </td>
+      <td><input type="number" name="Tmin" min="7" max="20" style="width: 42px;"></td>
+      <td><input type="number" name="Tmax" min="13" max="25" style="width: 42px;"></td>
+      <td><input type="checkbox" checked name="alarm0" value="ON"></td>
+    </tr>
+    <tr>
+      <td>Nivel mínimo de bateria </td>
+      <td><input type="number" name="Bmin" min="1" max="5" style="width: 42px;"></td>
+      <td><input type="checkbox" checked name="alarm1" value="ON"></td>
+    </tr>
+    <tr>
+      <td>Señal modem </td>
+      <td><input type="number" name="Smin" min="0" max="4" style="width: 42px;"></td>
+      <td><input type="checkbox" checked name="alarm2" value="ON"></td>
+    </tr>
+  </table>
+  <br>
+  <input type="submit" value="Submit">
+</form>
+
+<h1> Estado de los contactores </h1>
+<form action="contac.cgi" id="contact">
+  Temperatura <input type="checkbox" name="alarm1" value="ON"><br>
+  Bomba <input type="checkbox" name="alarm1" value="ON"><br>
+  Señal modem <input type="checkbox" name="alarm1" value="ON"><br>
+  <input type="submit" value="Submit">
+</form>
+
+
+
+</body>
+
+</html>

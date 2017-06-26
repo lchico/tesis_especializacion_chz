@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="graphs.css">
+<script src="control.js"></script>
+
+<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+<style>
+body {font-family: "Raleway", Arial, sans-serif}
+.w3-row img {margin-bottom: -8px}
+</style>
+<body>
+
+<!-- Sidebar (hidden by default) -->
+<!-- Top menu -->
+<nav class="w3-sidebar w3-bar-block w3-card-2 w3-top w3-xlarge w3-animate-left" style="display:none;z-index:2;width:20%;min-width:150px" id="mySidebar">
+  <a href="index.shtml" onclick="w3_close()" class="w3-bar-item w3-button">Monitoreo</a> <br>
+  <p> Configuración</p>
+  <a href="configuracion.shtml" onclick="w3_close()" class="w3-bar-item w3-button">Temperatura&3G_signal</a>
+  <a href="config.shtml" onclick="w3_close()" class="w3-bar-item w3-button">Config Modem</a>
+  <br>
+  <a href="javascript:void(0)" onclick="w3_close()"
+    class="w3-bar-item w3-button">Cerrar Menu</a>
+
+</nav>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-content w3-center" style="max-width:1000px">
+
+  <!-- Header -->
+  <header class="w3-container w3-light-grey w3-xlarge w3-padding-small">
+    <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
+    <!--div class="w3-right w3-padding-16">Mail</div-->
+    <div class="w3-center w3-padding-16">Monitoreo</div>
+  </header>
+  <!-- Photo Grid -->
+  <div class="w3-row">
+    <div class="w3-half">
+      <h3>Temperatura de Fermentacion</h3>
+      <svg transform=scale(0.8)  height="300">
+        <path d="M80 260 V35 C80 30, 102 0 120 35 V260 Z" stroke="black" fill="red"/>
+        <circle cx="101" cy="260" r="30" stroke="black" stroke-width="0" fill="red" />
+        <rect id="therm_rang_OK" x=80 y=100 stroke="black" width="40" height="70" />
+
+        <text id="symbC" x="45" y="37">ºC</text>
+
+        <text id="set_alarm" x="180" y="50">Alarm:</text>
+        <text id="alarm" x="240" y="50"><!--alm0--></text>
+
+        <text class="contact_text" x="0" y="103"> max:</text>
+        <text id="therm_max" x="45" y="105"><!--Tmax--></text>
+        <line id="line_max" x1="120" y1="100" x2="135" y2="100" />
+
+        <text class="contact_text" x="0" y="173">min: </text>
+        <text id="therm_min" x="45" y="175"><!--Tmin--></text>
+        <line id="line_max" x1="120" y1="171" x2="135" y2="171" />
+        <g id="arrow_temp" >
+        <path d="M2 10 L25 0 V20"></path>
+        <line x1="25" y1="10" x2="45" y2="10"/>
+        <text id="tmp_value" x="52" y="15"> 16,4 </text>
+        </g>
+      </svg>
+
+      <h3> Señal Movil</h3>
+      <svg width="300" >
+        <line id="floor_gprs" x1="20" y1="150" x2="225" y2="150" />
+        <rect id="sig1_gprs" x="20" y="120" width="40" height="30" />
+        <rect id="sig2_gprs" x="75" y="95" width="40" height="55" />
+        <rect id="sig3_gprs" x="130" y="70" width="40" height="80" />
+        <rect id="sig4_gprs" x="185" y="35" width="40" height="115" />
+      </svg>
+    </div>
+
+    <div class="w3-half w3-centerd">
+      <h3> Valvulas y Bomba </h3>
+      <svg transform="translate(10,20)" height="300" >
+        <circle id="act0" cx="12" cy="20" r="10"  />
+        <text  class="contact_text" x="30" y="25">Electrovalvula 0:</text>
+        <text  id="act0_text" x="190" y="25"> OFF </text>
+
+        <circle id="act1" cx="12" cy="60" r="10"  />
+        <text  class="contact_text" x="30" y="65">Electrovalvula 1:</text>
+        <text  id="act1_text" x="190" y="65"> OFF </text>
+
+        <circle id="act2" cx="12" cy="100" r="10"  />
+        <text  class="contact_text" x="30" y="105">Electrovalvula 2:</text>
+        <text  id="act2_text" x="190" y="105">OFF </text>
+
+        <circle id="act3" cx="12" cy="140" r="10"  />
+        <text  class="contact_text" x="30" y="145">Bomba:</text>
+        <text  id="act3_text" x="100" y="145"> OFF </text>
+
+      </svg>
+
+      <h3>Estado de Bateria</h3>
+      <svg transform="translate(100,0)" height="300">
+        <g  stroke="none" fill="none" >
+        <!-- Top small rectangle gray -->
+        <rect x="30" y="32" width="40" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
+        <!-- Top small rectangle white -->
+        <rect id="big_batt" x="10" y="56" width="80" height="165" />
+        <!-- Big battery -->
+        <rect id="small_ibatt" x="35" y="40" width="30" height="17" />
+        <!-- Last bar => 20 % or less -->
+        <!-- Need put TAG -->
+        <text id="dig_charge" x="100" y="125">100%</text>
+        <rect id="batt0" x="20" y="190" width="60" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
+        <!-- Second last bar => 40 % or less until 20 % -->
+        <rect id="batt1" x="20" y="160" width="60" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
+        <!-- Medle bar => betewen 40 and 60% -->
+        <rect id="batt2" x="20" y="130" width="60" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
+        <!-- Medle top => betewen 60 and 80% -->
+        <rect id="batt3" x="20" y="100" width="60" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
+        <!-- More than 80 % -->
+        <rect id="batt4" x="20" y="70" width="60" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
+        <!-- line x1="40" y1="20" x1="10" y1="50" style="stroke:rgb(255,0,0);stroke-width:2" -->
+        <svg id="ray" viewBox="25 -180 700 700">
+          <path  d="M200 50 L150 105 L180 105 L80 180 L130 120 L95 120 Z"></path>
+        </svg>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <!-- End Page Content -->
+</div>
+
+<!-- Footer -->
+<footer class="w3-light-grey w3-padding-small w3-center" id="about">
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+</footer>
+
+<script>
+// Script to open and close sidebar
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+}
+
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+}
+</script>
+</body>
+</html>
+
