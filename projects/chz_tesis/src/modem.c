@@ -14,6 +14,15 @@ static modem_state_t mstate=SET_TEXMODE;
 static int gsm_signal=0;
 sms_flags_t sms_flag=ALL_OK;
 
+contact_t contact_report[CANTIDAD_CONTACTOS];
+
+void init_contact(void){
+	sprintf(contact_report[0].name,"Test 1");
+	sprintf(contact_report[0].phone,"%s",DEFAULT_CEL_PHONE);
+	contact_report[0].state=ON;
+	contact_report[1].state=OFF;
+}
+
 void control_modem(void){
 	int i=0;
 	static portTickType sms_timeout[NRO_SMS_FLAGS];
@@ -50,11 +59,11 @@ void control_modem(void){
 			   * enviar el mensaje si la
 			   */
 			 	if (xTaskGetTickCount()- sms_timeout[sms_flag] > TIEMPO_REENVIAR_SMS ){
-				 	// send_report();
-				 	 // CHECK STATUS
-				 	 //if ( SUCCESS == ){
-						//mstate= SET_TEXMODE;
-				 	 //}
+				 	for (i=0;i<CANTIDAD_CONTACTOS;i++){
+				 		if (contact_report[i].state == ON ){
+				 			// send_report();
+				 		}
+				 	}
 			 		sms_flag=ALL_OK;
 			 		mstate=AT_SIGNAL;
 			 		sms_timeout[sms_flag]=xTaskGetTickCount(); /* reset timeout */
@@ -68,12 +77,12 @@ void control_modem(void){
 	}
 }
 
-void send_report(){
+void send_report(contact_t *contact_report){
 	char command[150];
 	signed char temperatura[5];
 	char at_ok[10];
 	GetTemperatura( temperatura);
-	sprintf(command,"%s=\"%s\"\r\n",AT_SEND_SMS,CEL_PHONE);
+	sprintf(command,"%s=\"%s\"\r\n",AT_SEND_SMS,contact_report->phone);
 	send_msg_modem(command);
 	vTaskDelay(500 / portTICK_RATE_MS);
 	uartRecv(CIAA_UART_232,command,150*sizeof(char));
@@ -160,6 +169,7 @@ static void prvModemTask( void *pvParameters ){
 	portTickType xLastWakeTime;
 
 	xLastWakeTime = xTaskGetTickCount();
+	init_contact();
 
 	for( ;; ){
 		vTaskDelayUntil( &xLastWakeTime, 1000 * TIMER_MODEM);

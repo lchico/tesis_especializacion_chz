@@ -10,21 +10,22 @@
 
 
 /*
- * Actuador 0 => Electrovalvula 0
- * Motor 1 => Motor Bomba refrigeración
+ * Actuador 0 => Optional
+ * Actuador 1 => Optional
+ * Electrovalvula 0 => Habilita el tanque
+ * Motor 0 => Motor Bomba refrigeración
  *
 */
 enum actuador_t {ACTUADOR0,ACTUADOR1,ELECTROVALVULA0,BOMBA};
 #define NRO_ACTUADORES 4
 
 
-#define NRO_ALARMS 3
-typedef enum {TEMPERATURA=0,BATERIA,SIGNAL_GPRS} alarm_t;
+#define NRO_ALARMS 2
+typedef enum {TEMPERATURA=0,BATERIA,CONTROLAUTOMATICO} alarm_t;
 
 /* NRO_ALARM 3 =>
  * Temperature: Max and Min
  * Battery: Min
- * Signal GPRS: Min
  */
 
 /* Default levels to Alarm */
@@ -37,20 +38,17 @@ typedef enum {TEMPERATURA=0,BATERIA,SIGNAL_GPRS} alarm_t;
  * 		.
  * 		5: It's 100% charge complete / power supply connect.
  */
-#define BMIN 2
-/* Signal modem
- * Its 0 to 4 where signal 0 its too low and 4 the best signal
- */
-#define SMIN 2
+#define BMIN 1
 
-
-/* NRO_ALARM + 1 because the temperature have to be between two values*/
+/* NRO_ALARM  because the temperature have to be between two values*/
 
 
 typedef enum state {OFF = 0, ON = !OFF} state_t;
 extern state_t actuatorState[NRO_ACTUADORES] ;
-extern int alarm_values[NRO_ALARMS+1];
+extern int cotas_values[NRO_ALARMS];
 extern state_t alarmState[];
+extern state_t ctrlautoState;
+
 
 
 enum {portNum_1 = 0,
@@ -59,17 +57,21 @@ enum {portNum_1 = 0,
 	  portNum_4
 };
 
-
+enum{
+	TEMP=0,
+	BAT
+};
 char* getActuatorState(int portNum);
 
 void toggleActuatorState(int portNum);
 
-const char *actuatorsHandler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[]);
-const char *alarmHandler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[]) ;
-const char *AJAXHandler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[]);
+const char *actuadoresHandler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[]);
+const char *configHandler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[]) ;
+const char *modemHandler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[]);
 
 void encender_refrigeracion(void);
 void apagar_refrigeracion(void);
+void update_actuadores(void);
 
 
 #endif /* PROJECTS_CHZ_TESIS_INC_ACTUADORES_H_ */

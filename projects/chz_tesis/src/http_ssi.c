@@ -34,20 +34,17 @@ uint16_t SSIHandler( int iIndex, char *pcBuffer, int iBufferLength )
 	case ssiALARM1_INDEX:
 			sprintf(pcBuffer,"%i", alarmState[1]); //Alarm  Battery active/inactive
 			break;
-	case ssiALARM2_INDEX:
-			sprintf(pcBuffer,"%i", alarmState[2]); //Alarm  Battery active/inactive
+	case ssiCTR0_INDEX:
+			sprintf(pcBuffer,"%i", ctrlautoState ); //Alarm  Battery active/inactive
 			break;
 	case ssiTMIN_INDEX:
-			sprintf(pcBuffer,"%i", alarm_values[0]); // Temperature min alarm update value
+			sprintf(pcBuffer,"%i", cotas_values[0]); // Temperature min alarm update value
 			break;
 	case ssiTMAX_INDEX:
-			sprintf(pcBuffer,"%i", alarm_values[1]); // Temperature max alarm update value
+			sprintf(pcBuffer,"%i", cotas_values[1]); // Temperature max alarm update value
 			break;
 	case ssiBMIN_INDEX:
-			sprintf(pcBuffer,"%i", alarm_values[2]); //Battery min level update value
-			break;
-	case ssiSMIN_INDEX:
-			sprintf(pcBuffer,"%i", alarm_values[3]); // Battery min level update value
+			sprintf(pcBuffer,"%i", cotas_values[2]); //Battery min level update value
 			break;
 	case ssiACT0_INDEX:
 			ptrState = actuatorState[0]?"ON":"OFF";
@@ -75,6 +72,12 @@ uint16_t SSIHandler( int iIndex, char *pcBuffer, int iBufferLength )
 	case ssiSEN2_INDEX:
 			// get signal gsm
 			GetGSM_signal( pcBuffer );
+			break;
+	case ssiCEL0_INDEX:
+			sprintf(pcBuffer,"%s", contact_report[0].phone); // Cellphone first contact
+			break;
+	case ssiCEL1_INDEX:
+			sprintf(pcBuffer,"%s", contact_report[1].phone); // Cellphone first contact
 			break;
 	default:
 		strcpy( pcBuffer, "Error" );

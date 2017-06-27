@@ -34,16 +34,16 @@ static void prvControlTask( void *pvParameters ){
 	for( ;; ){
 		vTaskDelayUntil( &xLastWakeTime, 1000 * TIMER_CONTROL);
 		/* CHECK TEMPERATURE */
-		if (((float) alarm_values[1] - Temperatura) < 0){  /* Si TEMPERATURA > MAXIMO */
-			if ( alarmState[TEMPERATURA] == ON){   /*  Y esta en control automático */
-				encender_refrigeracion();
+		if (((float) cotas_values[1] - Temperatura) < 0){  /* Si TEMPERATURA > MAXIMO */
+			if ( ctrlautoState == ON){   /*  Y esta en control automático */
+				encender_refrigeracion();	/* Enciendo Bomba */
 			}
-			sms_flag=SOBRE_TEMPERATURA_ALERT; /* SETEO FLAG PARA EVIO DE REPORTE SI ENVIO SMS */
-		}else if(((float) alarm_values[0] - Temperatura) > 0) { // O SI LA TEMPERATURA < MINIMA
-			if ( alarmState[0] == ON){   /*  Y esta en control automático */
+			sms_flag=SOBRE_TEMPERATURA_ALERT; 				/* FLAG P/ENVIO SMS */
+		}else if(((float) cotas_values[0] - Temperatura) > 0) { // O SI LA TEMPERATURA < MINIMA
+			if ( ctrlautoState == ON){ 							/*  control automático */
 				apagar_refrigeracion();
 			}
-			sms_flag=BAJA_TEMPERATURA_ALERT; /* SETEO FLAG PARA EVIO DE REPORTE SI ENVIO SMS */
+			sms_flag=BAJA_TEMPERATURA_ALERT; /* FLAG P/ENVIO SMS */
 		}else{
 			sms_flag=ALL_OK;
 		}
@@ -54,6 +54,7 @@ static void prvControlTask( void *pvParameters ){
 			}
 
 		}
+		update_actuadores();
 		// Estoy usando bateria?
 			// => SI, SETEO FLAG ENVIO SMS
 		// SI ALGUN FLAG DE SMS ESTA ENCENDIDO Y ESTA ACTIVO EL ENVIO DE SMS?

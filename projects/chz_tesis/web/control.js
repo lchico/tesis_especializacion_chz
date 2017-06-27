@@ -68,6 +68,12 @@ function update_values( data ){
 			case "alm0": //Set temperature Alarm
             	                document.getElementById("alarm").innerHTML = tag[1];
                                 break;
+			case "alm1": //Set temperature Alarm
+            	                document.getElementById("alarm").innerHTML = tag[1];
+                                break;
+			case "ctr0": //Set temperature Alarm
+            	                document.getElementById("alarm").innerHTML = tag[1];
+                                break;
 			case "Tmax": //Set temperature Max
             	                document.getElementById("therm_max").innerHTML = tag[1];
                                 break;

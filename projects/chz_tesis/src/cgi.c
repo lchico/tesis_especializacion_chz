@@ -12,9 +12,9 @@
 #include "board_api.h"
 
 tCGI cgi_handlers[]={
-		{"/actuadores.cgi",actuatorsHandler},
-		{"/alarm.cgi",alarmHandler},
-//		{"/testAJAX.cgi",AJAXHandler},
+		{"/actuadores.cgi",actuadoresHandler},
+		{"/config.cgi",configHandler},
+		{"/modem.cgi",modemHandler},
 };
 tCGI * ptrCGIHandlers;
 

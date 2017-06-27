@@ -8,6 +8,8 @@
 #ifndef GSM_H_
 #define GSM_H_
 
+#include "actuadores.h"
+
 #define configMODEM_STACK_SIZE configMINIMAL_STACK_SIZE*2
 #define configMODEM_TASK_PRIORITY tskIDLE_PRIORITY+4
 #define TIMER_MODEM 2 // Check temperature TIMER_SAMPLE seconds.
@@ -24,12 +26,6 @@
 #define MSG_AT_OK "OK"
 #define MSG_AT_ERROR "ERROR"
 
-#define INIT_NEW_MSJ '+'
-#define INIT_ERROR_MSJ 'E'
-#define INIT_OK_MSJ 'O'
-#define END_OK_MSJ 'K'
-#define END_RTA_AT '\n'
-#define RETURN_CARRY '\r'
 #define CHAR_WAIT_TO_WRIETE ">"
 #define CTRL_Z_AT 0x1A
 #define CHAR_MEM_SET '0'
@@ -48,36 +44,40 @@
 #define BUFFER_AUX 250
 #define BUFFER_MIN 5
 
-#define CEL_PHONE "64958758"
+#define DEFAULT_CEL_PHONE "64958758"
 #define BUFFER_PHONE_NUMBER 13 //54-911-54548829 => CANTIDAD DE NUMEROS
 #define MIN_GSM_SIGNAL 31
 #define RTA_CHAR_MIN_SIGNAL 14
 #define RTA_CMGL_UNSENT 9
+#define CANTIDAD_CONTACTOS 2
 
-
-typedef enum sms_flags_t {SOBRE_TEMPERATURA_ALERT=0,BAJA_TEMPERATURA_ALERT,BATERIA_ALERT,GSM_ALERT,ALL_OK} sms_flags_t;
 #define NRO_SMS_FLAGS 4 // Menos el ALL_SMS ya que no lo uso en el arreglo de sms_falgs
 #define TIEMPO_REENVIAR_SMS 10000 // VERIFICAR TIEMPO EQUIVALENTE
 
-extern sms_flags_t sms_flag;
 
+typedef enum sms_flags_t {SOBRE_TEMPERATURA_ALERT=0,BAJA_TEMPERATURA_ALERT,BATERIA_ALERT,GSM_ALERT,ALL_OK} sms_flags_t;
 
-struct gsm{
-	char message[BUFFER_MSJ];
-	char rta_message[BUFFER_MSJ+BUFFER_PHONE_NUMBER];
+typedef struct {
+	char name[20];
 	char phone[BUFFER_PHONE_NUMBER];
-	int msj_status;
-	int nro_msj;
-};
+	state_t state;
+}contact_t;
+
+
+
+extern sms_flags_t sms_flag;
+extern contact_t contact_report[];
+
 
 void send_msg_modem(char *msg);
 Status check_response(void);
 Status get_signal(void);
 void control_modem(void);
 void GetGSM_signal( signed char *pcWriteBuffer );
-void send_report();
+void send_report(contact_t *contact_report);
 void vStartModemTask( void );
 static void prvModemTask( void *pvParameters );
+void init_contact(void);
 
 
 #endif /* GSM_H_ */
