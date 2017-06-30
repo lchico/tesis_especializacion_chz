@@ -74,10 +74,10 @@ uint16_t SSIHandler( int iIndex, char *pcBuffer, int iBufferLength )
 			GetGSM_signal( pcBuffer );
 			break;
 	case ssiCEL0_INDEX:
-			sprintf(pcBuffer,"%s", contact_report[0].phone); // Cellphone first contact
+			sprintf(pcBuffer,"%s,%s",contact_report[0].name,contact_report[0].phone); // Cellphone first contact
 			break;
 	case ssiCEL1_INDEX:
-			sprintf(pcBuffer,"%s", contact_report[1].phone); // Cellphone first contact
+			sprintf(pcBuffer,"%s,%s",contact_report[1].name ,contact_report[1].phone); // Cellphone first contact
 			break;
 	default:
 		strcpy( pcBuffer, "Error" );

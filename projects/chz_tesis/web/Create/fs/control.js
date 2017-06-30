@@ -66,13 +66,13 @@ function update_values( data ){
 		var tag=argument.split('>');
 		switch(tag[0]){
 			case "alm0": //Set temperature Alarm
-            	                document.getElementById("alarm").innerHTML = tag[1];
+            	                document.getElementById("alarmtemp").innerHTML = 1*tag[1]?"ON":"OFF";
                                 break;
-			case "alm1": //Set temperature Alarm
-            	                document.getElementById("alarm").innerHTML = tag[1];
+			case "alm1": //Set Battery Alarm
+            	                document.getElementById("alarmbat").innerHTML = 1*tag[1]?"ON":"OFF";
                                 break;
 			case "ctr0": //Set temperature Alarm
-            	                document.getElementById("alarm").innerHTML = tag[1];
+            	                document.getElementById("autoctrl").innerHTML = 1*tag[1]?"ON":"OFF";
                                 break;
 			case "Tmax": //Set temperature Max
             	                document.getElementById("therm_max").innerHTML = tag[1];
@@ -92,6 +92,17 @@ function update_values( data ){
 			case "sen2": // signal cel
 				signal_modem(tag[1]);
 				break;
+
+			case "cel0": //Set temperature Min
+                                var contact=tag[1].split(',');
+            	                document.getElementById("ncel0").value = contact[0];
+            	                document.getElementById("cel0").value = contact[1];
+                                break;
+			case "cel1": //Set temperature Min
+                                var contact=tag[1].split(',');
+            	                document.getElementById("ncel1").value = contact[0];
+            	                document.getElementById("cel1").value = contact[1];
+                                break;
 			default :
 				//console.log(tag[0]);
 				break;

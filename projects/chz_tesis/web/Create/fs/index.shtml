@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="graphs.css">
 <script src="control.js"></script>
+<head>
+<script src="jquery.js"></script>
+</head>
 
 <!--link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css"-->
 <style>
@@ -48,45 +51,49 @@ body {font-family: "Raleway", Arial, sans-serif}
           <rect id="therm_rang_OK" x=80 y=100 stroke="black" width="40" height="70" />
 
           <text id="symbC" x="45" y="37">ºC</text>
+          <!-- Config text message Alarm -->
+          <text style="font-size:22px;" x="160" y="290">Alarma:</text>
+          <text style="font-size:22px; fill:#ff0000;" id="alarmtemp" x="243" y="291"><!--alm0--></text>
 
-          <text id="set_alarm" x="180" y="50">Alarm:</text>
-          <text id="alarm" x="240" y="50"><!--alm0--></text>
+          <!-- Config text message Auto control -->
+          <text style="font-size:22px;" x="40" y="330">Control Automático:</text>
+          <text style="font-size:22px; fill:#ff0000;" id="autoctrl" x="243" y="331"><!--ctr0--></text>
 
-          <text class="contact_text" x="0" y="103"> max:</text>
-          <text id="therm_max" x="45" y="105"><!--Tmax--></text>
+          <text style="font-size:22px;" class="contact_text" x="-24" y="103"> máx:</text>
+          <text style="font-size:22px;" id="therm_max" x="25" y="104"><!--Tmax--></text>
           <line id="line_max" x1="120" y1="100" x2="135" y2="100" />
 
-          <text class="contact_text" x="0" y="173">min: </text>
-          <text id="therm_min" x="45" y="175"><!--Tmin--></text>
+          <text style="font-size:22px;" class="contact_text" x="-24" y="173">mín: </text>
+          <text style="font-size:22px;" id="therm_min" x="25" y="174"><!--Tmin--></text>
           <line id="line_max" x1="120" y1="171" x2="135" y2="171" />
           <g id="arrow_temp" >
           <path d="M2 10 L25 0 V20"></path>
           <line x1="25" y1="10" x2="45" y2="10"/>
-          <text id="tmp_value" x="52" y="15"> 16,4 </text>
+          <text style="font-size:22px;" id="tmp_value" x="52" y="15"> 16,4 </text>
           </g>
         </svg>
       </div>
       <div id="cfgActuadores">
         <h3> Estado de los contactores </h3>
-        <form action="actuadores.cgi" id="contact">
+        <form action="actuadores.cgi" id="act_form">
           <table>
             <tr>
-              <td>Actuador0 </td><td>ON<input type="radio" checked name="act0" value="ON"></td> 
-                              <td>OFF<input type="radio" checked name="act0" value="OFF"></td>
+              <td>Actuador0 </td><td>ON<input type="radio" name="act0" value="ON"></td> 
+              <td>OFF<input type="radio" name="act0" value="OFF"></td>
             </tr>
             <tr>
-              <td>Actuador1 </td><td>ON<input type="radio" checked name="act1" value="ON"></td> 
-                              <td>OFF<input type="radio" checked name="act1" value="OFF"></td>
+              <td>Actuador1 </td><td>ON<input type="radio" name="act1" value="ON"></td> 
+              <td>OFF<input type="radio" name="act1" value="OFF"></td>
             </tr>
             <tr>
-              <td>Electroválvula1</td><td>ON<input type="radio" checked name="act2" value="ON"></td> 
-                              <td>OFF<input type="radio" checked name="act2" value="OFF"></td>
+              <td>Electroválvula1</td><td>ON<input type="radio"  name="act2" value="ON"></td> 
+              <td>OFF<input type="radio" name="act2" value="OFF"></td>
             </tr>
             <tr>
-              <td>Bomba</td><td>ON<input type="radio" checked name="act3" value="ON"></td> 
-                              <td>OFF<input type="radio" checked name="act3" value="OFF"></td>
+              <td>Bomba</td><td>ON<input type="radio" name="act3" value="ON"></td> 
+              <td>OFF<input type="radio" name="act3" value="OFF"></td>
             </tr>
-            </table>
+          </table>
 
           <input type="submit" value="Submit">
         </form>
@@ -95,7 +102,7 @@ body {font-family: "Raleway", Arial, sans-serif}
       </div>
       <div id="señal3g">
         <h3> Señal Movil</h3>
-        <svg width="300" >
+        <svg transform="translate(40,0)" width="300" >
           <line id="floor_gprs" x1="20" y1="150" x2="225" y2="150" />
           <rect id="sig1_gprs" x="20" y="120" width="40" height="30" />
           <rect id="sig2_gprs" x="75" y="95" width="40" height="55" />
@@ -107,7 +114,7 @@ body {font-family: "Raleway", Arial, sans-serif}
 
     <div id="cfgBat" class="w3-half">
       <center>
-        <form action="config.cgi" id="alarm">
+        <form action="config.cgi" id="bat_form">
           <table>
             <tr>
               <th> Bateria</th><th>Valor</th>
@@ -118,145 +125,154 @@ body {font-family: "Raleway", Arial, sans-serif}
             </tr>
             <tr>
               <td> Alarma </td>
-              <td>ON<input type="radio" checked name="alm2" value="ON"></td>
-              <td>OFF<input type="radio" checked name="alm2" value="OFF"></td>
+              <td>ON<input type="radio" name="alm2" value="ON"></td>
+              <td>OFF<input type="radio" name="alm2" value="OFF"></td>
             </tr>
           </table>
           <br>
           <input type="submit" value="Submit">
         </form>
+        <div id="other">
+            Trigger the handler
+          </div>
         <p class="obs"> Configure el valor mínimo y de estar activado dicha alarma será notificado mediante un SMS.</p>
       </center>
     </div>
 
     <div id="cfgGPRS" class="w3-half">
 
-      <h3> Configuracion de Telefonos: </h3>
+      <h4> Configurar telefonos para reportar alarmas SMS</h4>
 
-      <form action="modem.cgi" id="modem">
+      <form action="modem.cgi" id="modem_form">
         <table>
           <tr>
-            <td>Opción_1:</td> <td><input type="text" name="first" style="width: 100;"><td>Nro. Celular</td><td><input type="tel" name="cel0" style="width: 82px;"></td>
-              <td>Active<input type="radio" checked name="st0" value="ON"></td>
-              <td>Inactive<input type="radio" checked name="st0" value="OFF"></td>
+            <th></th><th>Nombre</th><th>Nro de Celular</th><th>Estado</th>
+          </tr>
+          <tr>
+            <td>Opción_1:</td> <td><input id="ncel0" type="text" name="first" style="width:80px;"><td><input id="cel0" type="tel" name="cel0" style="width: 90px;"></td>
+              <td>Active <input type="radio" name="st0" value="ON"></td>
+              <td>Inactive<input type="radio" name="st0" value="OFF"></td>
 
-          </tr>
-  <tr>
-           <td>Opción_2:</td> <td><input type="text" name="second" style="width: 100;"><td>Nro. Celular</td><td><input type="tel" name="cel1" style="width: 82px;"></td>
-              <td>Active<input type="radio" checked name="st1" value="ON"></td>
-              <td>Inactive<input type="radio" checked name="st1" value="OFF"></td>
-          </tr>
-        </table>
-        <br>
-        <input type="submit" value="Submit">
-      </form>
+            </tr>
+            <tr>
+              <td>Opción_2:</td> <td><input id="ncel1" type="text" name="second" style="width:80px;" ><td><input id="cel1" type="tel" name="cel1" style="width: 90px;"></td>
+                <td>Active<input type="radio" name="st1" value="ON"></td>
+                <td>Inactive<input type="radio" name="st1" value="OFF"></td>
+              </tr>
+            </table>
+            <br>
+            <input type="submit" value="Submit">
+          </form>
+        </div>
+
+
+        <!-- Right column -->
+        <div  class="w3-half w3-centerd">
+          <!-- FORMULARIO PARA CONFIGURAR LA TEMPERATURA -->
+          <div id="cfgTemp" >
+            <br> <br>
+            <form action="config.cgi" id="temp_form">
+              <table>
+                <tr>
+                  <th> Temperatura</th><th>Valor</th>
+                </tr>
+                <tr>
+                  <td>Máximo </td><td><input type="number" name="Tmax" min="7" max="25" style="width: 52px;"></td>
+                </tr>
+                <tr>
+                  <td>Mínimo </td>
+                  <td><input type="number" name="Tmin" min="5" max="20" style="width: 52px;"></td>
+                </tr>
+                <tr>
+                  <td> Alarma </td>
+                  <td>ON<input type="radio" name="alm0" value="ON"></td>
+                  <td>OFF<input type="radio"  name="alm0" value="OFF"></td>
+                </tr>
+                <tr>
+                  <td> Control Automático </td>
+                  <td>ON<input type="radio" name="ctr0" value="ON"></td>
+                  <td>OFF<input type="radio" name="ctr0" value="OFF"></td>
+                </tr>
+              </table>
+              <br>
+              <input type="submit" value="Submit">
+            </form>
+            <p class="obs"> Configure los valores máximos y mínimos para activar el control automático. Si está activada la alarma, será notificado mediante un SMS.</p>
+          </div>
+
+          <!--- Controlado de Boma y Actuadores --> 
+          <div id="actuadores">
+            <h3> Actuadores </h3>
+            <svg transform="translate(10,20)" height="300" >
+              <circle id="act0" cx="12" cy="20" r="10"  />
+              <text  class="contact_text" x="30" y="25">Actuador 0:</text>
+              <text  id="act0_text" x="150" y="25"> OFF </text>
+
+              <circle id="act1" cx="12" cy="60" r="10"  />
+              <text  class="contact_text" x="30" y="65">Actuador 1:</text>
+              <text  id="act1_text" x="150" y="65"> OFF </text>
+
+              <circle id="act2" cx="12" cy="100" r="10"  />
+              <text  class="contact_text" x="30" y="105">Electrovalvula 1:</text>
+              <text  id="act2_text" x="150" y="105">OFF </text>
+
+              <circle id="act3" cx="12" cy="140" r="10"  />
+              <text  class="contact_text" x="30" y="145">Bomba:</text>
+              <text  id="act3_text" x="150" y="145"> OFF </text>
+            </svg>
+          </div>
+
+          <div id="bateria">
+            <h3>Estado de Bateria</h3>
+            <svg transform="translate(100,-30)" height="300">
+              <g  stroke="none" fill="none" >
+              <!-- Top small rectangle gray -->
+              <rect x="30" y="32" width="40" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
+              <!-- Top small rectangle white -->
+              <rect id="big_batt" x="10" y="56" width="80" height="165" />
+              <!-- Big battery -->
+              <rect id="small_ibatt" x="35" y="40" width="30" height="17" />
+              <!-- Last bar => 20 % or less -->
+
+          <text style="font-size:18px;fill:#000000;" x="48" y="260">Alarma:</text>
+          <text style="font-size:18px; fill:#ff0000;" id="alarmbat" x="130" y="261"><!--alm1--></text>
+              <!-- Need put TAG -->
+              <text id="dig_charge" x="100" y="125">100%</text>
+              <rect id="batt0" x="20" y="190" width="60" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
+              <!-- Second last bar => 40 % or less until 20 % -->
+              <rect id="batt1" x="20" y="160" width="60" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
+              <!-- Medle bar => betewen 40 and 60% -->
+              <rect id="batt2" x="20" y="130" width="60" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
+              <!-- Medle top => betewen 60 and 80% -->
+              <rect id="batt3" x="20" y="100" width="60" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
+              <!-- More than 80 % -->
+              <rect id="batt4" x="20" y="70" width="60" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
+              <!-- line x1="40" y1="20" x1="10" y1="50" style="stroke:rgb(255,0,0);stroke-width:2" -->
+              <svg id="ray" viewBox="25 -180 700 700">
+                <path  d="M200 50 L150 105 L180 105 L80 180 L130 120 L95 120 Z"></path>
+              </svg>
+              </g>
+            </svg>
+          </div>
+
+        </div>
+      </div>
+
     </div>
 
+    <!-- End Page Content -->
 
-    <!-- Right column -->
-    <div  class="w3-half w3-centerd">
-      <!-- FORMULARIO PARA CONFIGURAR LA TEMPERATURA -->
-      <div id="cfgTemp" >
-        <br> <br>
-        <form action="config.cgi" id="alarm">
-          <table>
-            <tr>
-              <th> Temperatura</th><th>Valor</th>
-            </tr>
-            <tr>
-              <td>Máximo </td><td><input type="number" name="Tmin" min="7" max="25" style="width: 52px;"></td>
-            </tr>
-            <tr>
-              <td>Mínimo </td>
-              <td><input type="number" name="Tmax" min="5" max="20" style="width: 52px;"></td>
-            </tr>
-            <tr>
-              <td> Alarma </td>
-              <td>ON<input type="radio" checked name="alm0" value="ON"></td>
-              <td>OFF<input type="radio" checked name="alm0" value="OFF"></td>
-            </tr>
-            <tr>
-              <td> Control Automático </td>
-              <td>ON<input type="radio" checked name="ctr0" value="ON"></td>
-              <td>OFF<input type="radio" checked name="ctr0" value="OFF"></td>
-            </tr>
-          </table>
-          <br>
-          <input type="submit" value="Submit">
-        </form>
-        <p class="obs"> Configure los valores máximos y mínimos para activar el control automático. Fuera de estos rangos si está activada la alarma, será notificado mediante un SMS.</p>
-      </div>
+    <!-- Footer -->
+    <footer class="w3-light-grey w3-padding-small w3-center" id="about">
+      <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+    </footer>
 
-      <!--- Controlado de Boma y Actuadores --> 
-      <div id="actuadores">
-        <h3> Valvulas y Bomba </h3>
-        <svg transform="translate(10,20)" height="300" >
-          <circle id="act0" cx="12" cy="20" r="10"  />
-          <text  class="contact_text" x="30" y="25">Actuador 0:</text>
-          <text  id="act0_text" x="150" y="25"> OFF </text>
-
-          <circle id="act1" cx="12" cy="60" r="10"  />
-          <text  class="contact_text" x="30" y="65">Actuador 1:</text>
-          <text  id="act1_text" x="150" y="65"> OFF </text>
-
-          <circle id="act2" cx="12" cy="100" r="10"  />
-          <text  class="contact_text" x="30" y="105">Electrovalvula 1:</text>
-          <text  id="act2_text" x="150" y="105">OFF </text>
-
-          <circle id="act3" cx="12" cy="140" r="10"  />
-          <text  class="contact_text" x="30" y="145">Bomba:</text>
-          <text  id="act3_text" x="150" y="145"> OFF </text>
-        </svg>
-      </div>
-
-      <div id="bateria">
-        <h3>Estado de Bateria</h3>
-        <svg transform="translate(100,0)" height="300">
-          <g  stroke="none" fill="none" >
-          <!-- Top small rectangle gray -->
-          <rect x="30" y="32" width="40" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
-          <!-- Top small rectangle white -->
-          <rect id="big_batt" x="10" y="56" width="80" height="165" />
-          <!-- Big battery -->
-          <rect id="small_ibatt" x="35" y="40" width="30" height="17" />
-          <!-- Last bar => 20 % or less -->
-          <!-- Need put TAG -->
-          <text id="dig_charge" x="100" y="125">100%</text>
-          <rect id="batt0" x="20" y="190" width="60" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
-          <!-- Second last bar => 40 % or less until 20 % -->
-          <rect id="batt1" x="20" y="160" width="60" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
-          <!-- Medle bar => betewen 40 and 60% -->
-          <rect id="batt2" x="20" y="130" width="60" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
-          <!-- Medle top => betewen 60 and 80% -->
-          <rect id="batt3" x="20" y="100" width="60" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
-          <!-- More than 80 % -->
-          <rect id="batt4" x="20" y="70" width="60" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
-          <!-- line x1="40" y1="20" x1="10" y1="50" style="stroke:rgb(255,0,0);stroke-width:2" -->
-          <svg id="ray" viewBox="25 -180 700 700">
-            <path  d="M200 50 L150 105 L180 105 L80 180 L130 120 L95 120 Z"></path>
-          </svg>
-          </g>
-        </svg>
-      </div>
-
-    </div>
-  </div>
-
-</div>
-
-<!-- End Page Content -->
-
-<!-- Footer -->
-<footer class="w3-light-grey w3-padding-small w3-center" id="about">
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank" class="w3-hover-text-green">w3.css</a></p>
-</footer>
-
-<script>
+    <script>
 // Script to open and close sidebar
-function w3_open() {
-  console.log("open");
-  document.getElementById("mySidebar").style.display = "block";
-}
+    function w3_open() {
+      console.log("open");
+      document.getElementById("mySidebar").style.display = "block";
+    }
 
 function w3_close() {
   console.log("close");
@@ -265,6 +281,7 @@ function w3_close() {
 
 function config_monitoreo() {
   console.log("monitoreo");
+  document.getElementById("titleweb").innerHTML = "Monitoreo";
   document.getElementById("temperatura").style.display = "block";
   document.getElementById("bateria").style.display = "block";
   document.getElementById("actuadores").style.display = "block";
@@ -278,10 +295,8 @@ function config_monitoreo() {
 
 function config_actuaodres() {
   console.log("actuadores");
-  document.getElementById("titleweb").innerHTML = "Monitoreo";
-  document.getElementById("temperatura").style.display = "none";
   document.getElementById("titleweb").innerHTML = "Configuración de los Actuadores";
-
+  document.getElementById("temperatura").style.display = "none";
   document.getElementById("bateria").style.display = "none";
   document.getElementById("actuadores").style.display = "block";
   document.getElementById("señal3g").style.display = "none";
@@ -333,7 +348,43 @@ function config_modem() {
   document.getElementById("cfgGPRS").style.display = "block";
   w3_close();
 }
-</script>
-</body>
-</html>
+
+$(document).ready(function(){
+      $(bat_form).submit(function(e){
+         e.preventDefault();
+         $.ajax({
+                url: 'config.cgi',
+                data: $('#bat_form').serialize(),
+                });
+                alert("Submitted");
+      });
+      $(modem_form).submit(function(e){
+         e.preventDefault();
+         $.ajax({
+                url: 'modem.cgi',
+                data: $('#modem_form').serialize(),
+                });
+                alert("Submitted");
+      });
+      $(temp_form).submit(function(e){
+         e.preventDefault();
+         $.ajax({
+                url: 'config.cgi',
+                data: $('#temp_form').serialize(),
+                });
+                alert("Submitted");
+      });
+      $(act_form).submit(function(e){
+               e.preventDefault();
+               $.ajax({
+                      url: 'actuadores.cgi',
+                      data: $('#act_form').serialize(),
+                      });
+                      alert("Submitted");
+            });
+});
+
+    </script>
+    </body>
+    </html>
 
