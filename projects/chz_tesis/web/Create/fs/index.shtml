@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>W3.CSS Template</title>
+<title>Monitoreo del Proceso de Fermentación del Vino</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="graphs.css">
@@ -45,26 +45,26 @@ body {font-family: "Raleway", Arial, sans-serif}
     <div class="w3-half">
       <div id="temperatura">
         <h3>Temperatura de Fermentacion</h3>
-        <svg transform="scale(0.8) translate(80,0)" height="300">
+        <svg id="svgtemp" transform="scale(0.7) translate(60,0)" height="300">
           <path d="M80 260 V35 C80 30, 102 0 120 35 V260 Z" stroke="black" fill="red"/>
           <circle cx="101" cy="260" r="30" stroke="black" stroke-width="0" fill="red" />
           <rect id="therm_rang_OK" x=80 y=100 stroke="black" width="40" height="70" />
 
           <text id="symbC" x="45" y="37">ºC</text>
           <!-- Config text message Alarm -->
-          <text style="font-size:22px;" x="160" y="290">Alarma:</text>
-          <text style="font-size:22px; fill:#ff0000;" id="alarmtemp" x="243" y="291"><!--alm0--></text>
+          <text style="font-size:22px;" x="160" y="270">Alarma:</text>
+          <text style="font-size:22px; fill:#ff0000;" id="alarmtemp" x="243" y="271"><!--alm0--></text>
 
           <!-- Config text message Auto control -->
-          <text style="font-size:22px;" x="40" y="330">Control Automático:</text>
-          <text style="font-size:22px; fill:#ff0000;" id="autoctrl" x="243" y="331"><!--ctr0--></text>
+          <text style="font-size:22px;" x="142" y="300">Ctrl Auto:</text>
+          <text style="font-size:22px; fill:#ff0000;" id="autoctrl" x="243" y="301"><!--ctr0--></text>
 
-          <text style="font-size:22px;" class="contact_text" x="-24" y="103"> máx:</text>
-          <text style="font-size:22px;" id="therm_max" x="25" y="104"><!--Tmax--></text>
+          <text style="font-size:22px;" class="contact_text" x="-3" y="103"> máx:</text>
+          <text style="font-size:22px;" id="therm_max" x="45" y="104"><!--Tmax--></text>
           <line id="line_max" x1="120" y1="100" x2="135" y2="100" />
 
-          <text style="font-size:22px;" class="contact_text" x="-24" y="173">mín: </text>
-          <text style="font-size:22px;" id="therm_min" x="25" y="174"><!--Tmin--></text>
+          <text style="font-size:22px;" class="contact_text" x="-3" y="173">mín: </text>
+          <text style="font-size:22px;" id="therm_min" x="45" y="174"><!--Tmin--></text>
           <line id="line_max" x1="120" y1="171" x2="135" y2="171" />
           <g id="arrow_temp" >
           <path d="M2 10 L25 0 V20"></path>
@@ -76,7 +76,7 @@ body {font-family: "Raleway", Arial, sans-serif}
       <div id="cfgActuadores">
         <h3> Estado de los contactores </h3>
         <form action="actuadores.cgi" id="act_form">
-          <table>
+          <table align="center">
             <tr>
               <td>Actuador0 </td><td>ON<input type="radio" name="act0" value="ON"></td> 
               <td>OFF<input type="radio" name="act0" value="OFF"></td>
@@ -117,25 +117,23 @@ body {font-family: "Raleway", Arial, sans-serif}
         <form action="config.cgi" id="bat_form">
           <table>
             <tr>
-              <th> Bateria</th><th>Valor</th>
+              <th> </th><th>Valor</th><th></th>
             </tr>
             <tr>
               <td>Mínimo </td>
-              <td><input type="number" name="Bmin" min="0" max="4" style="width: 52px;"></td>
+              <td><input type="range" name="Bmin" min="0" max="5" style="width: 152px;"></td>
+              <td>Máximo </td>
             </tr>
             <tr>
               <td> Alarma </td>
-              <td>ON<input type="radio" name="alm2" value="ON"></td>
-              <td>OFF<input type="radio" name="alm2" value="OFF"></td>
+              <td >ON<input type="radio" name="alm2" style="padding:-15px;" value="ON">
+              OFF<input type="radio" name="alm2" value="OFF"></td>
             </tr>
           </table>
           <br>
           <input type="submit" value="Submit">
         </form>
-        <div id="other">
-            Trigger the handler
-          </div>
-        <p class="obs"> Configure el valor mínimo y de estar activado dicha alarma será notificado mediante un SMS.</p>
+        <p class="obs"> De estar activada la alarma recibirá un SMS <br>.</p>
       </center>
     </div>
 
@@ -150,14 +148,14 @@ body {font-family: "Raleway", Arial, sans-serif}
           </tr>
           <tr>
             <td>Opción_1:</td> <td><input id="ncel0" type="text" name="first" style="width:80px;"><td><input id="cel0" type="tel" name="cel0" style="width: 90px;"></td>
-              <td>Active <input type="radio" name="st0" value="ON"></td>
-              <td>Inactive<input type="radio" name="st0" value="OFF"></td>
+              <td>Activo <input type="radio" name="st0" value="ON"></td>
+              <td>Inactivo<input type="radio" name="st0" value="OFF"></td>
 
             </tr>
             <tr>
               <td>Opción_2:</td> <td><input id="ncel1" type="text" name="second" style="width:80px;" ><td><input id="cel1" type="tel" name="cel1" style="width: 90px;"></td>
-                <td>Active<input type="radio" name="st1" value="ON"></td>
-                <td>Inactive<input type="radio" name="st1" value="OFF"></td>
+                <td>Activo<input type="radio" name="st1" value="ON"></td>
+                <td>Inactivo<input type="radio" name="st1" value="OFF"></td>
               </tr>
             </table>
             <br>
@@ -184,7 +182,7 @@ body {font-family: "Raleway", Arial, sans-serif}
                   <td><input type="number" name="Tmin" min="5" max="20" style="width: 52px;"></td>
                 </tr>
                 <tr>
-                  <td> Alarma </td>
+                  <td> Alarma* </td>
                   <td>ON<input type="radio" name="alm0" value="ON"></td>
                   <td>OFF<input type="radio"  name="alm0" value="OFF"></td>
                 </tr>
@@ -197,7 +195,8 @@ body {font-family: "Raleway", Arial, sans-serif}
               <br>
               <input type="submit" value="Submit">
             </form>
-            <p class="obs"> Configure los valores máximos y mínimos para activar el control automático. Si está activada la alarma, será notificado mediante un SMS.</p>
+            <p class="obs"> Configure los valores máximos y mínimos para activar el control automático.<p>
+            <p class="obs">* Si está activada la alarma, será notificado mediante un SMS.</p>
           </div>
 
           <!--- Controlado de Boma y Actuadores --> 
@@ -234,8 +233,8 @@ body {font-family: "Raleway", Arial, sans-serif}
               <rect id="small_ibatt" x="35" y="40" width="30" height="17" />
               <!-- Last bar => 20 % or less -->
 
-          <text style="font-size:18px;fill:#000000;" x="48" y="260">Alarma:</text>
-          <text style="font-size:18px; fill:#ff0000;" id="alarmbat" x="130" y="261"><!--alm1--></text>
+              <text style="font-size:18px;fill:#000000;" x="48" y="260">Alarma:</text>
+              <text style="font-size:18px; fill:#ff0000;" id="alarmbat" x="130" y="261"><!--alm1--></text>
               <!-- Need put TAG -->
               <text id="dig_charge" x="100" y="125">100%</text>
               <rect id="batt0" x="20" y="190" width="60" height="20" style="fill:gray ;stroke-width:5;stroke:gray" />
@@ -263,8 +262,8 @@ body {font-family: "Raleway", Arial, sans-serif}
     <!-- End Page Content -->
 
     <!-- Footer -->
-    <footer class="w3-light-grey w3-padding-small w3-center" id="about">
-      <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+    <footer class="w3-light-grey w3-padding-small w3-center"  id="about">
+      <p> Copyright by <a href="http://web.fi.uba.ar/~lchico" target="_blank" class="w3-hover-text-green">Ing. Luis Chico</a></p>
     </footer>
 
     <script>
@@ -350,40 +349,43 @@ function config_modem() {
 }
 
 $(document).ready(function(){
-      $(bat_form).submit(function(e){
-         e.preventDefault();
-         $.ajax({
-                url: 'config.cgi',
-                data: $('#bat_form').serialize(),
-                });
-                alert("Submitted");
+    $(bat_form).submit(function(e){
+      e.preventDefault();
+      $.ajax({
+url: 'config.cgi',
+data: $('#bat_form').serialize(),
+});
+      alert("Submitted");
       });
-      $(modem_form).submit(function(e){
-         e.preventDefault();
-         $.ajax({
-                url: 'modem.cgi',
-                data: $('#modem_form').serialize(),
-                });
-                alert("Submitted");
+    $(modem_form).submit(function(e){
+      e.preventDefault();
+      $.ajax({
+url: 'modem.cgi',
+data: $('#modem_form').serialize(),
+});
+      alert("Submitted");
       });
-      $(temp_form).submit(function(e){
-         e.preventDefault();
-         $.ajax({
-                url: 'config.cgi',
-                data: $('#temp_form').serialize(),
-                });
-                alert("Submitted");
+    $(temp_form).submit(function(e){
+      e.preventDefault();
+      $.ajax({
+url: 'config.cgi',
+data: $('#temp_form').serialize(),
+});
+      alert("Submitted");
       });
-      $(act_form).submit(function(e){
-               e.preventDefault();
-               $.ajax({
-                      url: 'actuadores.cgi',
-                      data: $('#act_form').serialize(),
-                      });
-                      alert("Submitted");
-            });
+$(act_form).submit(function(e){
+    e.preventDefault();
+    $.ajax({
+url: 'actuadores.cgi',
+data: $('#act_form').serialize(),
+});
+    alert("Submitted");
+    });
 });
 
+if (navigator.appVersion.indexOf("Chrome/") != -1) {
+  document.getElementById("svgtemp").style.transform ="scale(0.7) translate(40px,-70px)";
+}
     </script>
     </body>
     </html>
