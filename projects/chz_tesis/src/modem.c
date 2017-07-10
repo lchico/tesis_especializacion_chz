@@ -61,7 +61,7 @@ void control_modem(void){
 			 	if (xTaskGetTickCount()- sms_timeout[sms_flag] > TIEMPO_REENVIAR_SMS ){
 				 	for (i=0;i<CANTIDAD_CONTACTOS;i++){
 				 		if (contact_report[i].state == ON ){
-				 			// send_report();
+				 			 //send_report(&contact_report[i]);
 				 		}
 				 	}
 			 		sms_flag=ALL_OK;
