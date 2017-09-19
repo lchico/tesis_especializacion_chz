@@ -11,7 +11,7 @@
 #include "actuadores.h"
 
 #define configMODEM_STACK_SIZE configMINIMAL_STACK_SIZE*2
-#define configMODEM_TASK_PRIORITY tskIDLE_PRIORITY+4
+#define configMODEM_TASK_PRIORITY tskIDLE_PRIORITY+3
 #define TIMER_MODEM 2 // Check temperature TIMER_SAMPLE seconds.
 
 #define MSG_AT_INIT "ATZ\r\n"

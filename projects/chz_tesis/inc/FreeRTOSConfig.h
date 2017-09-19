@@ -69,6 +69,7 @@
  * FreeRTOS API DOCUMENTATION AVAILABLE ON THE FreeRTOS.org WEB SITE.
  *----------------------------------------------------------*/
 
+
 #define configUSE_PREEMPTION		1
 #define configUSE_IDLE_HOOK			1
 #define configMAX_PRIORITIES		( ( unsigned portBASE_TYPE ) 5 )
@@ -79,7 +80,7 @@
 
 #define configTOTAL_HEAP_SIZE		( ( size_t ) ( 40*1024 ) ) // 32 x 64
 
-#define configMAX_TASK_NAME_LEN		( 12 ) //20
+#define configMAX_TASK_NAME_LEN		( 20 )
 #define configUSE_TRACE_FACILITY	1
 #define configUSE_16_BIT_TICKS		0
 #define configUSE_MALLOC_FAILED_HOOK	1
@@ -94,8 +95,7 @@
 #define configCHECK_FOR_STACK_OVERFLOW	1
 #define configUSE_RECURSIVE_MUTEXES		1
 #define configQUEUE_REGISTRY_SIZE		10
-#define configGENERATE_RUN_TIME_STATS	0 /* Add to stadisticks in 1 */
-#define configUSE_STATS_FORMATTING_FUNCTIONS	0 /* Add to stadisticks  in 1 */
+#define configGENERATE_RUN_TIME_STATS	0
 
 /* Set the following definitions to 1 to include the API function, or zero
 to exclude the API function. */
