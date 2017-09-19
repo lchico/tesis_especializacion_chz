@@ -106,7 +106,12 @@
 /* There are more *_DEBUG options that can be selected.
    See opts.h. Make sure that LWIP_DEBUG is defined when
    building the code to use debug. */
-#define TCP_DEBUG                       LWIP_DBG_OFF
+
+#define LWIP_DEBUG LWIP_DBG_ON
+
+
+
+#define TCP_DEBUG                       LWIP_DBG_OFF // OFF
 #define ETHARP_DEBUG                    LWIP_DBG_OFF
 #define PBUF_DEBUG                      LWIP_DBG_OFF
 #define IP_DEBUG                        LWIP_DBG_OFF
@@ -135,9 +140,25 @@
 #define MEM_LIBC_MALLOC                 1
 #define MEMP_MEM_MALLOC                 1
 
+
+
 /* Needed for malloc/free */
 #include "FreeRTOS.h"
 #define malloc pvPortMalloc
 #define free vPortFree
+
+#define mem_free vPortFree
+
+#define mem_malloc  pvPortMalloc
+
+STATIC INLINE void *pvPortCalloc(size_t nmemb, size_t size)
+{
+void *x = mem_malloc(nmemb * size);
+if (x != NULL)
+memset(x, 0, nmemb * size);
+return x;
+}
+
+#define mem_calloc pvPortCalloc
 
 #endif /* __LWIPOPTS_H_ */

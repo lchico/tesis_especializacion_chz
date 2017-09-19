@@ -68,8 +68,8 @@ void FreeRTOSDelay(uint32_t ms)
 __WEAK__ void vApplicationMallocFailedHook(void)
 {
 	DEBUGSTR("DIE:ERROR:FreeRTOS: Malloc Failure!\r\n");
-	taskDISABLE_INTERRUPTS();
-	for (;; ) {}
+//	taskDISABLE_INTERRUPTS();
+//	for (;; ) {}
 }
 
 /* FreeRTOS application idle hook */
