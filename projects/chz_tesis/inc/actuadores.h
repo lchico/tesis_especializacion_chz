@@ -20,7 +20,7 @@ enum actuador_t {ACTUADOR0,ACTUADOR1,ELECTROVALVULA0,BOMBA};
 #define NRO_ACTUADORES 4
 
 
-#define NRO_ALARMS 2
+#define NRO_ALARMS 3
 typedef enum {TEMPERATURA=0,BATERIA,CONTROLAUTOMATICO} alarm_t;
 
 /* NRO_ALARM 3 =>
@@ -68,6 +68,7 @@ void toggleActuatorState(int portNum);
 const char *actuadoresHandler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[]);
 const char *configHandler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[]) ;
 const char *modemHandler(int iIndex, int iNumParams, char *pcParam[], char *pcValue[]);
+const char *cgi_ipaddr(int index, int numParams, char *param[], char *value[]);
 
 void encender_refrigeracion(void);
 void apagar_refrigeracion(void);

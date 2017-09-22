@@ -66,16 +66,20 @@
 #include "control.h"
 #include "ciaaUART.h"
 
-#if defined(lpc4337_m4)
 #include "ciaaIO.h"
-#endif
+
 
 /*****************************************************************************
  * Private types/enumerations/variables
  ****************************************************************************/
 
 /* NETIF data */
-static struct netif lpc_netif;
+struct netif lpc_netif;
+
+/* Configuración IP por default. */
+uint8_t configIP_ADDR[4]  = { 192, 168, 0  , 11 };
+uint8_t configNET_MASK[4]   = { 255, 255, 255, 0 };
+uint8_t configGW_IP_ADDR[4] = { 192, 168, 0  , 1 };
 
 /*****************************************************************************
  * Public types/enumerations/variables
@@ -86,12 +90,15 @@ static struct netif lpc_netif;
  ****************************************************************************/
 extern void http_set_ssi_handler(tSSIHandler ssi_handler, const char **tags, int num_tags);
 
+
 /* Sets up system hardware */
 static void prvSetupHardware(void)
 {
 	SystemCoreClockUpdate();
 	Board_Init();
 	ciaaUARTInit();
+	adcInit();
+
 
 #if defined(lpc4337_m4)
 	ciaaIOInit();
@@ -116,6 +123,9 @@ static void vSetupIFTask (void *pvParameters) {
 	uint32_t physts;
 	static int prt_ip = 0;
 
+
+
+
 	/* Wait until the TCP/IP thread is finished before
 	   continuing or wierd things may happen */
 	LWIP_DEBUGF(LWIP_DBG_ON, ("Waiting for TCPIP thread to initialize...\n"));
@@ -132,9 +142,9 @@ static void vSetupIFTask (void *pvParameters) {
 	IP4_ADDR(&ipaddr, 0, 0, 0, 0);
 	IP4_ADDR(&netmask, 0, 0, 0, 0);
 #else
-	IP4_ADDR(&gw, 192, 168, 0, 1);
-	IP4_ADDR(&ipaddr,  192, 168, 0, 11);
-	IP4_ADDR(&netmask, 255, 255, 255, 0);
+	IP4_ADDR(&gw, configGW_IP_ADDR[0],configGW_IP_ADDR[1] ,configGW_IP_ADDR[2] ,configGW_IP_ADDR[3] );
+	IP4_ADDR(&ipaddr,  configIP_ADDR[0], configIP_ADDR[1], configIP_ADDR[2], configIP_ADDR[3]);
+	IP4_ADDR(&netmask, configNET_MASK[0], configNET_MASK[1], configNET_MASK[2], configNET_MASK[3]);
 #endif
 
 	/* Add netif interface for lpc17xx_8x */
@@ -155,7 +165,6 @@ static void vSetupIFTask (void *pvParameters) {
 
 	/* Initialize and start application */
 	//tcpecho_init();
-	adcInit();
 
 	CGIinit();
 
@@ -179,34 +188,18 @@ static void vSetupIFTask (void *pvParameters) {
 
 				/* Set interface speed and duplex */
 				if (physts & PHY_LINK_SPEED100) {
-#ifdef lpc1769
-					Chip_ENET_Set100Mbps(LPC_ETHERNET);
-#else
 					Chip_ENET_SetSpeed(LPC_ETHERNET, 1);
-#endif
 					NETIF_INIT_SNMP(&lpc_netif, snmp_ifType_ethernet_csmacd, 100000000);
 				}
 				else {
-#ifdef lpc1769
-					Chip_ENET_Set10Mbps(LPC_ETHERNET);
-#else
 					Chip_ENET_SetSpeed(LPC_ETHERNET, 0);
-#endif
 					NETIF_INIT_SNMP(&lpc_netif, snmp_ifType_ethernet_csmacd, 10000000);
 				}
 				if (physts & PHY_LINK_FULLDUPLX) {
-#ifdef lpc1769
-					Chip_ENET_SetFullDuplex(LPC_ETHERNET);
-#else
 					Chip_ENET_SetDuplex(LPC_ETHERNET, true);
-#endif
 				}
 				else {
-#ifdef lpc1769
-					Chip_ENET_SetHalfDuplex(LPC_ETHERNET);
-#else
 					Chip_ENET_SetDuplex(LPC_ETHERNET, false);
-#endif
 				}
 
 				tcpip_callback_with_block((tcpip_callback_fn) netif_set_link_up,
@@ -263,7 +256,7 @@ int main(void)
 	/* Add another thread for initializing physical interface. This
 	   is delayed from the main LWIP initialization. */
 	xTaskCreate(vSetupIFTask, (signed char *) "SetupIFx",
-				configMINIMAL_STACK_SIZE, NULL, (tskIDLE_PRIORITY + 1UL),
+				configMINIMAL_STACK_SIZE*4, NULL, (tskIDLE_PRIORITY + 1UL),
 				(xTaskHandle *) NULL);
 
 	/* *  Iniciar la tarea que toma y calcula la temperatura y el

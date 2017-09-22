@@ -95,13 +95,13 @@ function update_values( data ){
 
 			case "cel0": //Set temperature Min
                                 var contact=tag[1].split(',');
-            	                document.getElementById("ncel0").value = contact[0];
-            	                document.getElementById("cel0").value = contact[1];
+            	                document.getElementById("ncel0").innerHTML = contact[0];
+            	                document.getElementById("cel0").innerHTML = contact[1];
                                 break;
 			case "cel1": //Set temperature Min
                                 var contact=tag[1].split(',');
-            	                document.getElementById("ncel1").value = contact[0];
-            	                document.getElementById("cel1").value = contact[1];
+            	                document.getElementById("ncel1").innerHTML = contact[0];
+            	                document.getElementById("cel1").innerHTML = contact[1];
                                 break;
 			default :
 				//console.log(tag[0]);
@@ -272,7 +272,7 @@ function temp_arrow(temp){
 
             	var max=document.getElementById("therm_max").innerHTML;
             	var min=document.getElementById("therm_min").innerHTML;
-		m = -71  / (max-min) ;
+		m = -71  / (max*1-min*1) ;
 		b = 125.5 - m*(max*1+min*1)/2;
 		mv_arrow = b  + m*temp  ;
 		

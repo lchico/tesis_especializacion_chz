@@ -14,6 +14,13 @@
 #include "ciaaUART.h"
 #include "stdlib.h"
 #include "modem.h"
+#include "lwip/ip_addr.h"
+
+extern uint8_t configIP_ADDR[4] ;
+extern uint8_t configNET_MASK[4] ;
+extern uint8_t configGW_IP_ADDR[4];
+extern struct netif lpc_netif;
+
 
 state_t actuatorState[NRO_ACTUADORES] = {ON,OFF,OFF,OFF}; //,OFF,OFF};
 
@@ -172,4 +179,79 @@ const char *modemHandler(int iIndex, int iNumParams, char *pcParam[], char *pcVa
 		}
 	}
 	return "/index.shtml";
+}
+
+
+
+/*********************************************************************//**
+ * @brief               Función para ejecutar al invocar ipaddr.cgi.
+ *
+ * @param[in]   index Índice dentro de los parámetros de CGI recibidos.
+ * @param[in]   numParams Número de parámetros CGI recibidos.
+ * @param[in]   *param[] Puntero al vector con los parámetros CGI recibidos.
+ * @param[in]   *value[] Puntero al vector con los valores de los parámetros CGI recibidos.
+ * @return              Nombre de la página html que devuelve al finalizar.
+ **********************************************************************/
+const char *cgi_ipaddr(int index, int numParams, char *param[], char *value[])
+{
+        uint32_t i = 0;
+        uint32_t j = 0;
+        char cTempString[ 6 ];
+        int32_t DatoTemporal;
+        struct ip_addr ipTemp;
+
+        (void) index;     // Solo para evitar el warning del compilador.
+        (void) numParams; // Solo para evitar el warning del compilador.
+
+        for (i = 0; i < 4; i++){
+                sprintf((char *)cTempString, "addr%u", i+1);
+                if (strstr(param[i], (char *)cTempString) != (char *)0) {   /* parámetro encontrado */
+                        DatoTemporal = atoi(value[i]);
+                        if ((DatoTemporal >= 0) && (DatoTemporal <= 255)){
+                                configIP_ADDR[i] = DatoTemporal;
+                                j++;
+                        }
+                }
+        }
+        if (j == 4){
+                IP4_ADDR(&ipTemp, configIP_ADDR[0], configIP_ADDR[1], configIP_ADDR[2], configIP_ADDR[3]);
+                netif_set_ipaddr(&lpc_netif, &ipTemp); // Cambiar la dirección IP.
+        }
+
+        for (i = 0; i < 4; i++){
+                sprintf((char *)cTempString, "mask%u", i+1);
+                if (strstr(param[i+4], (char *)cTempString) != (char *)0) {   /* parámetro encontrado */
+                        DatoTemporal = atoi(value[i+4]);
+                        if ((DatoTemporal >= 0) && (DatoTemporal <= 255)){
+                                configNET_MASK[i] = DatoTemporal;
+                                j++;
+                        }
+                }
+        }
+        if (j == 8){
+                IP4_ADDR(&ipTemp, configNET_MASK[0], configNET_MASK[1], configNET_MASK[2], configNET_MASK[3]);
+                netif_set_netmask(&lpc_netif, &ipTemp); // Cambiar la Máscara.
+        }
+
+        for (i = 0; i < 4; i++){
+                sprintf((char *)cTempString, "gway%u", i+1);
+                if (strstr(param[i+8], (char *)cTempString) != (char *)0) {   /* parámetro encontrado */
+                        DatoTemporal = atoi(value[i+8]);
+                        if ((DatoTemporal >= 0) && (DatoTemporal <= 255)){
+                                configGW_IP_ADDR[i] = DatoTemporal;
+                                j++;
+                        }
+                }
+        }
+        if (j == 12){
+                IP4_ADDR(&ipTemp, configGW_IP_ADDR[0], configGW_IP_ADDR[1], configGW_IP_ADDR[2], configGW_IP_ADDR[3]);
+                netif_set_gw(&lpc_netif, &ipTemp); // Cambiar el Default Gateway.
+        }
+
+        if (j==12){
+                return "/index.shtml";
+        }
+        else {
+                return (char *)0;/*si no se encuentra el URI, HTTPD envía error 404*/
+        }
 }

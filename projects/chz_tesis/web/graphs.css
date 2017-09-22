@@ -222,7 +222,7 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
  * * thermometer configuration
  * **/
 #therm_rang_OK{ fill:#7FFF00}
-#set_alarm,#alarm{ fill:black}
+/*#set_alarm,#alarm{ fill:black}*/
 #line_max{ stroke:black; stroke-width:2}
 #symbC{ font-size:22px; fill:black}
 #arrow_temp{ stroke:black; fill:red;}
@@ -233,28 +233,18 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
  * **/ 
 #small_ibatt{ fill:red; stroke-width:5; stroke:white; }
 #big_batt{ fill:white;stroke-width:5;stroke:red;}
-
 /* Simulate charge or no using visibility:hidden/visible */
 #ray{ fill:yellow; stroke:red; width: 100%}
 #dig_charge{ position: absolute; fill:gray}
-
-
-
-p.obs {
-      font-style: italic;
-      font-size:small;
-    }
-
-th,td {
-      padding: 10px;
-        }
-
+p.obs { font-style: italic; font-size:small; }
+th,td { padding: 10px; } 
 #bateria{display:block}
-#temperatura{display:block}
+#temperatura{ display:block; }
 #actuadores{display:block}
 #señal3g{display:block}
 #cfgTemp{display:none}
 #cfgActuadores{display:none}
 #cfgBat{display:none}
-#cfgGPRS{display:none}
+#Network{display:none}
 
+#cfgGPRS{display:none}

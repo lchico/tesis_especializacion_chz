@@ -15,6 +15,7 @@ tCGI cgi_handlers[]={
 		{"/actuadores.cgi",actuadoresHandler},
 		{"/config.cgi",configHandler},
 		{"/modem.cgi",modemHandler},
+		{"/net_config.cgi",cgi_ipaddr},
 };
 tCGI * ptrCGIHandlers;
 
@@ -26,5 +27,5 @@ void CGIinit( void) {
 //
 //	cgi_handler.pfnCGIHandler = actuatorsHandler;
 
-	http_set_cgi_handlers(cgi_handlers, 3);
+	http_set_cgi_handlers(cgi_handlers, 4);
 }

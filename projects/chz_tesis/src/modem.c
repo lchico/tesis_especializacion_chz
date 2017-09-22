@@ -7,6 +7,8 @@
 #include "sensores.h"
 #include "modem.h"
 #include "actuadores.h"
+#include "lwip/debug.h"
+#include "rtc.h"
 
 typedef enum {AT_OK,CHECK_ALARMS,AT_SIGNAL,SET_TEXMODE,WELCOME_MSG,SEND_REPORT} modem_state_t;
 
@@ -164,9 +166,35 @@ void vStartModemTask( void ){
 					NULL );									/* No se requiere de un manejador para esta tarea (NULL). */
 }
 
+char* itoa(int value, char* result, int base) {
+   // check that the base if valid
+   if (base < 2 || base > 36) { *result = '\0'; return result; }
+
+   char* ptr = result, *ptr1 = result, tmp_char;
+   int tmp_value;
+
+   do {
+      tmp_value = value;
+      value /= base;
+      *ptr++ = "zyxwvutsrqponmlkjihgfedcba9876543210123456789abcdefghijklmnopqrstuvwxyz" [35 + (tmp_value - value * base)];
+   } while ( value );
+
+   // Apply negative sign
+   if (tmp_value < 0) *ptr++ = '-';
+   *ptr-- = '\0';
+   while(ptr1 < ptr) {
+      tmp_char = *ptr;
+      *ptr--= *ptr1;
+      *ptr1++ = tmp_char;
+   }
+   return result;
+}
+
 static void prvModemTask( void *pvParameters ){
 	( void ) pvParameters;
 	portTickType xLastWakeTime;
+	char time[70];
+	RTC rtc;
 
 	xLastWakeTime = xTaskGetTickCount();
 	init_contact();
@@ -175,5 +203,6 @@ static void prvModemTask( void *pvParameters ){
 		vTaskDelayUntil( &xLastWakeTime, 1000 * TIMER_MODEM);
 		ciaaToggleOutput(5);
 		control_modem();
+		rtc_gettime(&rtc);
 	}
 }
