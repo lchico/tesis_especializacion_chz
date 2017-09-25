@@ -20,6 +20,7 @@ extern uint8_t configIP_ADDR[4] ;
 extern uint8_t configNET_MASK[4] ;
 extern uint8_t configGW_IP_ADDR[4];
 extern struct netif lpc_netif;
+extern Bool reset_server;
 
 
 state_t actuatorState[NRO_ACTUADORES] = {ON,OFF,OFF,OFF}; //,OFF,OFF};
@@ -249,7 +250,10 @@ const char *cgi_ipaddr(int index, int numParams, char *param[], char *value[])
         }
 
         if (j==12){
-                return "/index.shtml";
+        	NVIC_DisableIRQ(ETHERNET_IRQn);
+    		netif_set_down(&lpc_netif);
+       		reset_server=TRUE;
+            return (char *)0;
         }
         else {
                 return (char *)0;/*si no se encuentra el URI, HTTPD envía error 404*/
