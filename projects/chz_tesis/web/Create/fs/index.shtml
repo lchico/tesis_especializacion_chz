@@ -178,7 +178,6 @@ body {font-family: "Raleway", Arial, sans-serif}
                 <td>Activo<input type="radio" name="st1" value="ON"></td>
                 <td>Inactivo<input type="radio" name="st1" value="OFF"></td>
             </tr>
-            </td><td><p id="cel1" >Nro Cel2.</p></td></tr>
             </table>
             <br>
             <input type="submit" value="Submit">

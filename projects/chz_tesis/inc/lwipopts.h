@@ -80,7 +80,7 @@
 #define MEM_SIZE                        (24 * 1024)
 
 /* Raw interface not needed */
-#define LWIP_RAW                        1 //0
+#define LWIP_RAW                        0 //0
 
 /* DHCP is ok, UDP is required with DHCP */
 #define LWIP_DHCP                       0
@@ -107,7 +107,7 @@
    See opts.h. Make sure that LWIP_DEBUG is defined when
    building the code to use debug. */
 
-#define LWIP_DEBUG LWIP_DBG_ON
+#define LWIP_DEBUG LWIP_DBG_OFF
 
 
 
@@ -124,7 +124,7 @@
 #define EMAC_DEBUG                    LWIP_DBG_OFF
 
 #define DEFAULT_THREAD_PRIO             (tskIDLE_PRIORITY + 1)
-#define DEFAULT_THREAD_STACKSIZE        (128) //512
+#define DEFAULT_THREAD_STACKSIZE        (512) //128
 #define DEFAULT_ACCEPTMBOX_SIZE         6
 #define DEFAULT_ACCEPTMBOX_SIZE         6
 #define DEFAULT_TCP_RECVMBOX_SIZE       6
@@ -133,7 +133,7 @@
 /* TCPIP thread must run at higher priority than MAC threads! */
 #define TCPIP_THREAD_PRIO               (DEFAULT_THREAD_PRIO + configMAX_PRIORITIES - 1)
 
-#define TCPIP_THREAD_STACKSIZE          (256) //512
+#define TCPIP_THREAD_STACKSIZE          (256) //256
 
 #define TCPIP_MBOX_SIZE                 6
 

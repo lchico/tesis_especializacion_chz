@@ -11,8 +11,8 @@
 #define configTEMPERATURA_STACK_SIZE configMINIMAL_STACK_SIZE
 
 #define configCONTROL_STACK_SIZE configMINIMAL_STACK_SIZE
-#define configCONTROL_TASK_PRIORITY tskIDLE_PRIORITY+1
-#define TIMER_CONTROL 2 // Check temperature TIMER_SAMPLE seconds.
+#define configCONTROL_TASK_PRIORITY tskIDLE_PRIORITY+2
+#define TIMER_CONTROL 1 // Check temperature TIMER_SAMPLE seconds.
 
 static void prvControlTask( void *pvParameters );
 void vStartControlTask( void );

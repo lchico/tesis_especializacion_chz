@@ -14,7 +14,8 @@ typedef enum {AT_OK,CHECK_ALARMS,AT_SIGNAL,SET_TEXMODE,WELCOME_MSG,SEND_REPORT} 
 
 static modem_state_t mstate=SET_TEXMODE;
 static int gsm_signal=0;
-sms_flags_t sms_flag=ALL_OK;
+
+extern sms_flags_t sms_flag;
 
 contact_t contact_report[CANTIDAD_CONTACTOS];
 
@@ -32,6 +33,7 @@ void control_modem(void){
 	switch (mstate){
 		case SET_TEXMODE:
 				send_msg_modem(MSG_AT_TEXT_MODE);
+				sms_flag=ALL_OK;
 				if ( SUCCESS == check_response()){
 					mstate= AT_SIGNAL;
 					/* Reinicio los timeout de las alertas por SMS
@@ -43,7 +45,6 @@ void control_modem(void){
 				}
 				break;
 		case WELCOME_MSG:
-			//send_msg_modem("Perfect");
 				if ( SUCCESS == check_response() ){
 					mstate= AT_SIGNAL;
 				}
@@ -51,19 +52,19 @@ void control_modem(void){
 		case AT_SIGNAL:
 				send_msg_modem(MSG_AT_SIGNAL);
 				get_signal();
-				if( sms_flag != ALL_OK ){
+				if(  ALL_OK != sms_flag ){
 					mstate= SEND_REPORT;
 				}
 				break;
 		case SEND_REPORT:
 			  /* Si el mensaje fue enviado recientemente espero
 			   * un tiempo TIEMPO_REENVIAR_SMS hasta volver a
-			   * enviar el mensaje si la
+			   * enviar otro mensaje de alerta
 			   */
 			 	if (xTaskGetTickCount()- sms_timeout[sms_flag] > TIEMPO_REENVIAR_SMS ){
 				 	for (i=0;i<CANTIDAD_CONTACTOS;i++){
 				 		if (contact_report[i].state == ON ){
-				 			 //send_report(&contact_report[i]);
+				 			 send_report(&contact_report[i]);
 				 		}
 				 	}
 			 		sms_flag=ALL_OK;
@@ -73,7 +74,8 @@ void control_modem(void){
 				break;
 
 		default :
-			send_msg_modem("ERRORRORRRRR\n\r");
+			send_msg_modem(CTRL_Z_AT);
+			send_msg_modem("AT\n\r");
 			break;
 
 	}
@@ -192,17 +194,14 @@ char* itoa(int value, char* result, int base) {
 
 static void prvModemTask( void *pvParameters ){
 	( void ) pvParameters;
-	portTickType xLastWakeTime;
+	static portTickType xLastWakeTime;
 	char time[70];
-	RTC rtc;
 
 	xLastWakeTime = xTaskGetTickCount();
 	init_contact();
 
 	for( ;; ){
 		vTaskDelayUntil( &xLastWakeTime, 1000 * TIMER_MODEM);
-		ciaaToggleOutput(5);
 		control_modem();
-		rtc_gettime(&rtc);
 	}
 }

@@ -21,7 +21,7 @@ float Temperatura = 0;
 
 uint16_t CalCeroBatt = 200; // Calibración del ADC de temperatura.
 float FEscalaBatt = 0.1025f; // Factor de escala de temperatura.
-uint16_t Bateria = 0;
+uint16_t Bateria = 5; // Put the max value to evil send SMS by battery
 
 
 /* P0.23 -> AD0 */
@@ -87,7 +87,7 @@ void vStartSensorTask( void ){
 
 static void prvSensorTask( void *pvParameters ){
 	( void ) pvParameters;
-	portTickType xLastWakeTime;
+	static portTickType xLastWakeTime;
 	uint16_t temp_value,battery_value;
 	float ret;
 	static samples_t temperature,battery;

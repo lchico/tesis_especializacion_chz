@@ -115,7 +115,7 @@ const char *configHandler(int iIndex, int iNumParams, char *pcParam[], char *pcV
 			continue;
 		}
 		if( strcmp(pcParam[i], "alm0") == 0){			/* Alarma por Temperatura */
-			if( strcmp(pcValue[0], "ON") == 0){
+			if( strcmp(pcValue[i], "ON") == 0){
 				alarmState[TEMP]= ON;
 			}else{
 				alarmState[TEMP]= OFF;

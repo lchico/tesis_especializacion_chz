@@ -16,6 +16,8 @@
 #include "actuadores.h"
 #include "modem.h"
 
+extern sms_flags_t sms_flag;
+
 void vStartControlTask( void ){
 	xTaskCreate( 	prvControlTask,						/* Crea la tarea prvControlTask. */
 					( const int8_t * const ) "Control", 		/* Texto con el nombre de la tarea (solamente para Debug).  El kernel no usa este nombre. */
@@ -27,38 +29,34 @@ void vStartControlTask( void ){
 
 static void prvControlTask( void *pvParameters ){
 	( void ) pvParameters;
-	portTickType xLastWakeTime;
+	static portTickType xLastWakeTime;
 
 	xLastWakeTime = xTaskGetTickCount();
 
 	for( ;; ){
 		vTaskDelayUntil( &xLastWakeTime, 1000 * TIMER_CONTROL);
+
 		/* CHECK TEMPERATURE */
-		if (((float) cotas_values[1] - Temperatura) < 0){  /* Si TEMPERATURA > MAXIMO */
+		if ((float) cotas_values[1] < Temperatura){  /* Si TEMPERATURA > MAXIMO */
 			if ( ctrlautoState == ON){   /*  Y esta en control automático */
 				encender_refrigeracion();	/* Enciendo Bomba */
 			}
 			sms_flag=SOBRE_TEMPERATURA_ALERT; 				/* FLAG P/ENVIO SMS */
-		}else if(((float) cotas_values[0] - Temperatura) > 0) { // O SI LA TEMPERATURA < MINIMA
+		}
+		if((float) cotas_values[0] > Temperatura) { // O SI LA TEMPERATURA < MINIMA
 			if ( ctrlautoState == ON){ 							/*  control automático */
 				apagar_refrigeracion();
 			}
 			sms_flag=BAJA_TEMPERATURA_ALERT; /* FLAG P/ENVIO SMS */
-		}else{
-			sms_flag=ALL_OK;
 		}
 		/* CHECK BATTERY */
-		if (Bateria < 0){  /* Si BATERIA < MAXIMO */
+		if (Bateria < cotas_values[2]){  /* Si BATERIA < Cota_Min */
 			if ( alarmState[BATERIA] == ON){   /*  Y esta en control automático */
 				sms_flag=BATERIA_ALERT; /* SETEO FLAG PARA EVIO DE REPORTE SI ENVIO SMS */
 			}
-
 		}
 		update_actuadores();
-		// Estoy usando bateria?
-			// => SI, SETEO FLAG ENVIO SMS
-		// SI ALGUN FLAG DE SMS ESTA ENCENDIDO Y ESTA ACTIVO EL ENVIO DE SMS?
-			// => SI ENTONCES ENVIO NOTIFICACION DE ALERTA Y ESTADO (REPORT)
+		ciaaToggleOutput(5);
 	}
 }
 

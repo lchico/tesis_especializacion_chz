@@ -75,6 +75,7 @@
 
 /* NETIF data */
 struct netif lpc_netif;
+sms_flags_t sms_flag;
 
 /* Configuración IP por default. */
 uint8_t configIP_ADDR[4]  = { 192, 168, 0  , 11 };
@@ -256,7 +257,7 @@ int main(void)
 	/* Add another thread for initializing physical interface. This
 	   is delayed from the main LWIP initialization. */
 	xTaskCreate(vSetupIFTask, (signed char *) "SetupIFx",
-				configMINIMAL_STACK_SIZE*4, NULL, (tskIDLE_PRIORITY + 1UL),
+				configMINIMAL_STACK_SIZE, NULL, (tskIDLE_PRIORITY + 1UL),
 				(xTaskHandle *) NULL);
 
 	/* *  Iniciar la tarea que toma y calcula la temperatura y el

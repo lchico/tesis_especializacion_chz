@@ -10,9 +10,9 @@
 
 #include "actuadores.h"
 
-#define configMODEM_STACK_SIZE configMINIMAL_STACK_SIZE*2
-#define configMODEM_TASK_PRIORITY tskIDLE_PRIORITY+3
-#define TIMER_MODEM 2 // Check temperature TIMER_SAMPLE seconds.
+#define configMODEM_STACK_SIZE ( unsigned short ) 512
+#define configMODEM_TASK_PRIORITY tskIDLE_PRIORITY+2
+#define TIMER_MODEM 7
 
 #define MSG_AT_INIT "ATZ\r\n"
 #define MSG_AT_SIGNAL "AT+CSQ\r\n"
@@ -52,10 +52,11 @@
 #define CANTIDAD_CONTACTOS 2
 
 #define NRO_SMS_FLAGS 4 // Menos el ALL_SMS ya que no lo uso en el arreglo de sms_falgs
-#define TIEMPO_REENVIAR_SMS 10000 // VERIFICAR TIEMPO EQUIVALENTE
-
+#define TIEMPO_REENVIAR_SMS 5000 // VERIFICAR TIEMPO EQUIVALENTE
 
 typedef enum sms_flags_t {SOBRE_TEMPERATURA_ALERT=0,BAJA_TEMPERATURA_ALERT,BATERIA_ALERT,GSM_ALERT,ALL_OK} sms_flags_t;
+
+
 
 typedef struct {
 	char name[20];
@@ -65,7 +66,6 @@ typedef struct {
 
 
 
-extern sms_flags_t sms_flag;
 extern contact_t contact_report[];
 
 

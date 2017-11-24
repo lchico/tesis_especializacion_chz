@@ -10,7 +10,7 @@
 #define MUESTRAS 10 // Cantidad de muestras de Temp. y Hum a tomar por el ADC (hacer coincidir con las de DC).
 
 #define configTEMPERATURA_STACK_SIZE configMINIMAL_STACK_SIZE
-#define configTEMPERATURA_TASK_PRIORITY tskIDLE_PRIORITY+1
+#define configTEMPERATURA_TASK_PRIORITY tskIDLE_PRIORITY+2
 #define TIMER_SAMPLE 1 // Check temperature TIMER_SAMPLE seconds.
 
 extern uint16_t Bateria;
